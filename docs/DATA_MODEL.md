@@ -1,8 +1,8 @@
 # Data Model — EBBQ Festival Management System
 
-**Versione**: 1.1
+**Versione**: 1.2
 **Ultimo aggiornamento**: 2026-04-08
-**Stato**: Applicato su Supabase
+**Stato**: Applicato su Supabase (richiede migration 002)
 
 ---
 
@@ -53,6 +53,7 @@ Le edizioni del festival (2023, 2024, 2025, 2026...).
 | year | int | Unico |
 | name | text | Es. "EBBQ 2026" |
 | is_current | boolean | Una sola attiva |
+| show_edition_comparison | boolean | Default false. Mostra confronto con edizione precedente |
 | created_at | timestamptz | |
 
 ---
@@ -92,7 +93,8 @@ Singola voce di spesa. L'importo corrente è l'ultima revisione.
 | id | uuid PK | |
 | edition_id | uuid FK → editions | |
 | category_id | uuid FK → expense_categories | |
-| description | text | |
+| description | text | Nullable. Vuoto = budget da allocare |
+| is_budget | boolean | Default false. True = budget, false = spesa allocata |
 | supplier | text | Fornitore (opzionale) |
 | supplier_ref | text | Riferimento fornitore (opzionale) |
 | vat_applicable | boolean | Default false — true se IVA dovuta |

@@ -15,7 +15,8 @@ coding/
 │   └── DATA_MODEL.md        # Schema database v1.1
 ├── supabase/
 │   └── migrations/
-│       └── 001_initial_schema.sql
+│       ├── 001_initial_schema.sql
+│       └── 002_budget_and_comparison.sql  # is_budget + show_edition_comparison
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx       # Layout principale
@@ -77,7 +78,7 @@ coding/
 |--------|-------|-------|
 | Auth | Fatto | /login |
 | Impostazioni (edizioni, giorni, categorie) | Fatto | /settings |
-| Spese (CRUD + revisioni + pagamenti + IVA) | Fatto | /expenses |
+| Spese (budget/allocate, albero collassabile, IVA lordo, confronto edizioni) | Fatto | /expenses |
 | Ricavi | Fatto | /revenues |
 | Ristorazione (F&B) | Fatto | /fb |
 | Simulatore scenari | Fatto | /scenarios |
