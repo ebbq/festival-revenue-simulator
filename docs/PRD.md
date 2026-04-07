@@ -1,6 +1,6 @@
 # PRD — EBBQ Festival Management System
 
-**Versione**: 0.3
+**Versione**: 1.0
 **Ultimo aggiornamento**: 2026-04-07
 **Stato**: In definizione
 
@@ -49,7 +49,7 @@ Le voci di spesa si agganciano sempre al **livello più basso** disponibile. La 
 
 #### Attribuzione temporale
 Ogni spesa può essere attribuita a:
-- **Un giorno specifico** del festival (Giorno 1 / 2 / 3)
+- **Un giorno specifico** del festival (i giorni sono configurati dall'Admin nelle impostazioni, mai hardcoded)
 - **Più giorni selezionati**
 - **All'intero festival** (spesa non giornalizzata)
 
@@ -86,8 +86,8 @@ La ristorazione è separata perché ha una logica propria: mix di soggetti con m
 | Tipo | Descrizione | Come si calcola |
 |------|-------------|-----------------|
 | **Vendor a fee fissa** | Paga un importo fisso per partecipare | Ricavo = fee; Costo = 0 (o costo dello spazio) |
-| **Vendor a percentuale** | Paga una % sul venduto | Ricavo = % × fatturato stimato (variabile con presenze) |
-| **Interno** | EBBQ gestisce direttamente | Ricavo = vendite stimate; Costo = costo merci + staff; Margine netto calcolato |
+| **Vendor a percentuale** | Paga una % sul venduto | Due campi: **% stimata** (budget, usata nel simulatore) e **% reale + fatturato reale** (consuntivo) |
+| **Interno** | EBBQ gestisce direttamente | Budget: ricavi e costi stimati. Consuntivo: ricavi e costi reali inseriti dall'Admin. Margine netto calcolato su entrambi. |
 
 #### Variabile driver
 Il **numero di presenze** è il driver principale. Per ogni operatore F&B si definisce:
@@ -171,9 +171,9 @@ Vista sintetica per stakeholder esterni (sponsor, Comune). Non inclusa nel primo
 
 ---
 
-## Domande aperte
+## Decisioni prese
 
-- [ ] Quante date precise ha il festival 2026? (per impostare i giorni nel sistema)
-- [ ] I vendor F&B a percentuale: la % si applica sul fatturato reale (consuntivo) o stimato (budget)?
-- [ ] Per il modulo interno F&B: chi inserisce i dati di vendita reale durante il festival?
-- [ ] Il simulatore scenari deve considerare anche variazioni sui ricavi sponsor (es. sponsor legati alle presenze)?
+- Le date del festival sono configurate dall'Admin nell'app (mai hardcoded — repo pubblica)
+- F&B a %: doppio campo budget/consuntivo per permettere stima e controllo a posteriori
+- Dati F&B interno: inseriti solo dall'Admin (una persona)
+- Sponsor: tutti a importo fisso (nessun sponsor legato alle presenze)
