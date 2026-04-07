@@ -72,18 +72,18 @@ export function FbOperatorList({
     <div>
       {/* Summary */}
       <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-3">
-        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
-          <p className="text-xs text-zinc-500">Operatori</p>
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
+          <p className="text-xs text-gray-400">Operatori</p>
           <p className="mt-1 text-lg font-semibold">{operators.length}</p>
         </div>
-        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
-          <p className="text-xs text-zinc-500">Stima ricavi F&B (3.000 presenze)</p>
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
+          <p className="text-xs text-gray-400">Stima ricavi F&B (3.000 presenze)</p>
           <p className="mt-1 text-lg font-mono font-semibold">
             €{totalBudgetRevenue.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
           </p>
         </div>
-        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
-          <p className="text-xs text-zinc-500">Consuntivo ricavi F&B</p>
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
+          <p className="text-xs text-gray-400">Consuntivo ricavi F&B</p>
           <p className="mt-1 text-lg font-mono font-semibold text-green-400">
             €{totalActualRevenue.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
           </p>
@@ -93,7 +93,7 @@ export function FbOperatorList({
       {canEdit && !showForm && (
         <button
           onClick={() => setShowForm(true)}
-          className="mb-6 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+          className="mb-6 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500 transition-colors"
         >
           + Nuovo operatore
         </button>
@@ -103,7 +103,7 @@ export function FbOperatorList({
 
       {showForm && (
         <form
-          className="mb-8 rounded-xl border border-zinc-800 bg-zinc-900 p-6 space-y-4"
+          className="mb-8 rounded-xl border border-gray-200 bg-white p-6 space-y-4"
           action={async (formData) => {
             setError(null);
             const result = await createFbOperator(formData);
@@ -113,18 +113,18 @@ export function FbOperatorList({
         >
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Nuovo operatore F&B</h3>
-            <button type="button" onClick={() => setShowForm(false)} className="text-sm text-zinc-500 hover:text-white">Annulla</button>
+            <button type="button" onClick={() => setShowForm(false)} className="text-sm text-gray-400 hover:text-gray-800">Annulla</button>
           </div>
           <input type="hidden" name="edition_id" value={editionId} />
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Nome *</label>
-              <input name="name" required className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white" />
+              <label className="block text-xs text-gray-400 mb-1">Nome *</label>
+              <input name="name" required className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800" />
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Tipo *</label>
-              <select name="type" value={formType} onChange={(e) => setFormType(e.target.value)} className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white">
+              <label className="block text-xs text-gray-400 mb-1">Tipo *</label>
+              <select name="type" value={formType} onChange={(e) => setFormType(e.target.value)} className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800">
                 <option value="fixed_fee">Fee fissa</option>
                 <option value="percentage">Percentuale</option>
                 <option value="internal">Interno</option>
@@ -133,38 +133,38 @@ export function FbOperatorList({
 
             {formType === "fixed_fee" && (
               <div>
-                <label className="block text-xs text-zinc-500 mb-1">Fee fissa (€)</label>
-                <input name="fixed_fee" type="number" step="0.01" className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white" />
+                <label className="block text-xs text-gray-400 mb-1">Fee fissa (€)</label>
+                <input name="fixed_fee" type="number" step="0.01" className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800" />
               </div>
             )}
 
             {formType === "percentage" && (
               <div>
-                <label className="block text-xs text-zinc-500 mb-1">Percentuale (%)</label>
-                <input name="percentage" type="number" step="0.01" className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white" />
+                <label className="block text-xs text-gray-400 mb-1">Percentuale (%)</label>
+                <input name="percentage" type="number" step="0.01" className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800" />
               </div>
             )}
 
             {(formType === "percentage" || formType === "internal") && (
               <>
                 <div>
-                  <label className="block text-xs text-zinc-500 mb-1">Spesa media €/persona</label>
-                  <input name="estimated_avg_spend_per_person" type="number" step="0.01" className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white" />
+                  <label className="block text-xs text-gray-400 mb-1">Spesa media €/persona</label>
+                  <input name="estimated_avg_spend_per_person" type="number" step="0.01" className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800" />
                 </div>
                 <div>
-                  <label className="block text-xs text-zinc-500 mb-1">Tasso conversione (%)</label>
-                  <input name="estimated_conversion_rate" type="number" step="0.01" className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white" placeholder="Es. 30 = 30% del pubblico" />
+                  <label className="block text-xs text-gray-400 mb-1">Tasso conversione (%)</label>
+                  <input name="estimated_conversion_rate" type="number" step="0.01" className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800" placeholder="Es. 30 = 30% del pubblico" />
                 </div>
               </>
             )}
 
             <div className="md:col-span-2">
-              <label className="block text-xs text-zinc-500 mb-1">Note</label>
-              <input name="notes" className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-600" />
+              <label className="block text-xs text-gray-400 mb-1">Note</label>
+              <input name="notes" className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 placeholder-gray-400" />
             </div>
           </div>
 
-          <button type="submit" className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500">
+          <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500">
             Crea operatore
           </button>
         </form>
@@ -181,13 +181,13 @@ export function FbOperatorList({
               <button
                 onClick={() => setExpandedId(isExpanded ? null : op.id)}
                 className={`w-full rounded-lg border p-4 text-left transition-colors ${
-                  isExpanded ? "border-amber-600/30 bg-zinc-900" : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700"
+                  isExpanded ? "border-green-300 bg-white" : "border-gray-200 bg-white hover:border-gray-300"
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">{op.name}</p>
-                    <p className="text-xs text-zinc-500 mt-0.5">
+                    <p className="text-xs text-gray-400 mt-0.5">
                       {TYPE_LABELS[op.type]}
                       {op.type === "fixed_fee" && op.fixed_fee && ` · €${op.fixed_fee.toLocaleString("it-IT", { minimumFractionDigits: 2 })}`}
                       {op.type === "percentage" && op.percentage && ` · ${op.percentage}%`}
@@ -207,8 +207,8 @@ export function FbOperatorList({
               </button>
 
               {isExpanded && canEdit && (
-                <div className="ml-4 mr-4 mb-2 rounded-b-lg border border-t-0 border-zinc-800 bg-zinc-900/80 p-5 space-y-4">
-                  <h4 className="text-sm font-medium text-zinc-400">Consuntivo</h4>
+                <div className="ml-4 mr-4 mb-2 rounded-b-lg border border-t-0 border-gray-200 bg-white p-5 space-y-4">
+                  <h4 className="text-sm font-medium text-gray-500">Consuntivo</h4>
                   <form
                     className="grid grid-cols-1 gap-3 md:grid-cols-3"
                     action={async (formData) => {
@@ -219,25 +219,25 @@ export function FbOperatorList({
                   >
                     <input type="hidden" name="fb_operator_id" value={op.id} />
                     <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Fatturato reale (€)</label>
-                      <input name="actual_revenue" type="number" step="0.01" defaultValue={actual?.actual_revenue ?? ""} className="w-full rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-sm text-white" />
+                      <label className="block text-xs text-gray-400 mb-1">Fatturato reale (€)</label>
+                      <input name="actual_revenue" type="number" step="0.01" defaultValue={actual?.actual_revenue ?? ""} className="w-full rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm text-gray-800" />
                     </div>
                     {op.type === "internal" && (
                       <div>
-                        <label className="block text-xs text-zinc-500 mb-1">Costo reale (€)</label>
-                        <input name="actual_cost" type="number" step="0.01" defaultValue={actual?.actual_cost ?? ""} className="w-full rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-sm text-white" />
+                        <label className="block text-xs text-gray-400 mb-1">Costo reale (€)</label>
+                        <input name="actual_cost" type="number" step="0.01" defaultValue={actual?.actual_cost ?? ""} className="w-full rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm text-gray-800" />
                       </div>
                     )}
                     <div>
-                      <label className="block text-xs text-zinc-500 mb-1">Fee pagata a EBBQ (€)</label>
-                      <input name="actual_fee_paid" type="number" step="0.01" defaultValue={actual?.actual_fee_paid ?? ""} className="w-full rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-sm text-white" />
+                      <label className="block text-xs text-gray-400 mb-1">Fee pagata a EBBQ (€)</label>
+                      <input name="actual_fee_paid" type="number" step="0.01" defaultValue={actual?.actual_fee_paid ?? ""} className="w-full rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm text-gray-800" />
                     </div>
                     <div className="md:col-span-3 flex gap-3 items-end">
                       <div className="flex-1">
-                        <label className="block text-xs text-zinc-500 mb-1">Note</label>
-                        <input name="notes" defaultValue={actual?.notes ?? ""} className="w-full rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-sm text-white" />
+                        <label className="block text-xs text-gray-400 mb-1">Note</label>
+                        <input name="notes" defaultValue={actual?.notes ?? ""} className="w-full rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm text-gray-800" />
                       </div>
-                      <button type="submit" className="rounded bg-amber-600 px-3 py-1 text-xs font-medium text-white hover:bg-amber-500">Salva</button>
+                      <button type="submit" className="rounded bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-500">Salva</button>
                     </div>
                   </form>
 
@@ -260,7 +260,7 @@ export function FbOperatorList({
         })}
 
         {operators.length === 0 && (
-          <p className="text-center py-8 text-zinc-500">Nessun operatore F&B registrato.</p>
+          <p className="text-center py-8 text-gray-400">Nessun operatore F&B registrato.</p>
         )}
       </div>
     </div>

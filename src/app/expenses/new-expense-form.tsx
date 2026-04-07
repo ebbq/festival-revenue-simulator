@@ -30,25 +30,20 @@ export function NewExpenseForm({
   const [isFestivalWide, setIsFestivalWide] = useState(true);
   const [vatApplicable, setVatApplicable] = useState(false);
 
-  // Build category options with hierarchy
   const level1 = categories.filter((c) => c.level === 1);
 
   function getCategoryOptions() {
     const options: { value: string; label: string }[] = [];
     for (const l1 of level1) {
+      options.push({ value: l1.id, label: l1.name });
       const l2s = categories.filter((c) => c.parent_id === l1.id);
-      if (l2s.length === 0) {
-        options.push({ value: l1.id, label: l1.name });
-      }
       for (const l2 of l2s) {
+        options.push({ value: l2.id, label: `  ${l1.name} › ${l2.name}` });
         const l3s = categories.filter((c) => c.parent_id === l2.id);
-        if (l3s.length === 0) {
-          options.push({ value: l2.id, label: `${l1.name} › ${l2.name}` });
-        }
         for (const l3 of l3s) {
           options.push({
             value: l3.id,
-            label: `${l1.name} › ${l2.name} › ${l3.name}`,
+            label: `    ${l1.name} › ${l2.name} › ${l3.name}`,
           });
         }
       }
@@ -58,12 +53,14 @@ export function NewExpenseForm({
 
   if (!open) {
     return (
-      <button
-        onClick={() => setOpen(true)}
-        className="mb-6 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
-      >
-        + Nuova spesa
-      </button>
+      <div className="mb-6 flex gap-3">
+        <button
+          onClick={() => setOpen(true)}
+          className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+        >
+          + Nuova voce
+        </button>
+      </div>
     );
   }
 
@@ -85,7 +82,7 @@ export function NewExpenseForm({
       }}
     >
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold">Nuova spesa</h3>
+        <h3 className="font-semibold">Nuova voce di spesa</h3>
         <button
           type="button"
           onClick={() => setOpen(false)}
@@ -95,15 +92,16 @@ export function NewExpenseForm({
         </button>
       </div>
 
+      <p className="text-xs text-zinc-500">Lascia la descrizione vuota per creare un budget da allocare.</p>
+
       <input type="hidden" name="edition_id" value={editionId} />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="block text-xs text-zinc-500 mb-1">Descrizione *</label>
+          <label className="block text-xs text-zinc-500 mb-1">Descrizione (vuoto = budget)</label>
           <input
             name="description"
             type="text"
-            required
             className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-600"
             placeholder="Es. Noleggio palco principale"
           />
@@ -126,7 +124,7 @@ export function NewExpenseForm({
         </div>
 
         <div>
-          <label className="block text-xs text-zinc-500 mb-1">Importo iniziale (€) *</label>
+          <label className="block text-xs text-zinc-500 mb-1">Importo (€) *</label>
           <input
             name="initial_amount"
             type="number"
@@ -183,7 +181,6 @@ export function NewExpenseForm({
         </div>
       </div>
 
-      {/* Day assignment */}
       <div className="space-y-2">
         <label className="flex items-center gap-2">
           <input
@@ -199,11 +196,7 @@ export function NewExpenseForm({
           <div className="flex flex-wrap gap-3 ml-6">
             {festivalDays.map((day) => (
               <label key={day.id} className="flex items-center gap-1.5">
-                <input
-                  type="checkbox"
-                  name="day_ids"
-                  value={day.id}
-                />
+                <input type="checkbox" name="day_ids" value={day.id} />
                 <span className="text-sm text-zinc-400">{day.label}</span>
               </label>
             ))}
@@ -227,7 +220,7 @@ export function NewExpenseForm({
         type="submit"
         className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
       >
-        Crea spesa
+        Crea voce
       </button>
     </form>
   );

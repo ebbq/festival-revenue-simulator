@@ -4,6 +4,36 @@ Tutte le modifiche significative al progetto.
 
 ---
 
+## 2026-04-08 — Ristrutturazione spese (branch: feature/expense-restructure)
+
+### Budget vs Spese allocate
+- Nuovo campo `is_budget` su expenses: voce senza descrizione = budget da allocare
+- Badge colorato: "Budget" (blu) vs "Spesa" (grigio), toggle con un click
+- Logica gerarchica: budget L1 fa da tetto, sotto-budget e spese si scalano
+- Disponibile = Budget - Allocato (rosso se sforato)
+
+### Lista spese collassabile
+- Vista ad albero per categoria: L1 → L2 → L3 → singole voci
+- Categorie collassabili/espandibili con totali aggregati
+- Ogni livello mostra: Budget, Allocato, Disponibile
+
+### IVA come importo lordo
+- Importi mostrati sempre lordi (netto + IVA)
+- Indicazione "incl. IVA 22%" sotto l'importo
+- Summary cards: "Totale lordo" e "di cui IVA"
+
+### Spese a qualsiasi livello
+- Rimosso vincolo leaf-only: spese/budget assegnabili a L1, L2 o L3
+- Dropdown mostra tutte le categorie con indentazione
+
+### Confronto edizioni
+- Toggle nelle impostazioni: "Mostra confronto edizione precedente"
+- Nella lista spese L1: importo edizione precedente + variazione %
+- Match per nome categoria (case-insensitive)
+- Migrazione: `show_edition_comparison` su editions, `is_budget` su expenses
+
+---
+
 ## 2026-04-08
 
 ### Autenticazione

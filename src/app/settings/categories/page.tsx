@@ -15,10 +15,10 @@ export default async function CategoriesPage() {
   if (!currentEdition) {
     return (
       <div className="text-center py-12">
-        <p className="text-zinc-400">
+        <p className="text-gray-500">
           Nessuna edizione corrente impostata.
         </p>
-        <p className="text-sm text-zinc-500 mt-1">
+        <p className="text-sm text-gray-400 mt-1">
           Vai su &quot;Edizioni e Giorni&quot; per impostarne una.
         </p>
       </div>
@@ -36,7 +36,7 @@ export default async function CategoriesPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold">Categorie Spesa</h2>
-        <p className="text-sm text-zinc-400 mt-1">
+        <p className="text-sm text-gray-500 mt-1">
           Edizione: {currentEdition.name}
         </p>
       </div>

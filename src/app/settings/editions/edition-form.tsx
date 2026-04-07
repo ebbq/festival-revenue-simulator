@@ -11,7 +11,7 @@ export function EditionForm() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-sm text-amber-400 hover:text-amber-300 transition-colors"
+        className="text-sm text-green-600 hover:text-green-500 transition-colors"
       >
         + Nuova edizione
       </button>
@@ -20,7 +20,7 @@ export function EditionForm() {
 
   return (
     <form
-      className="flex flex-wrap items-end gap-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4"
+      className="flex flex-wrap items-end gap-3 rounded-lg border border-gray-200 bg-white p-4"
       action={async (formData) => {
         setError(null);
         const result = await createEdition(formData);
@@ -32,35 +32,35 @@ export function EditionForm() {
       }}
     >
       <div>
-        <label className="block text-xs text-zinc-500 mb-1">Anno</label>
+        <label className="block text-xs text-gray-400 mb-1">Anno</label>
         <input
           name="year"
           type="number"
           required
           defaultValue={new Date().getFullYear()}
-          className="w-24 rounded border border-zinc-700 bg-zinc-800 px-2 py-1.5 text-sm text-white"
+          className="w-24 rounded border border-gray-300 bg-gray-100 px-2 py-1.5 text-sm text-gray-800"
         />
       </div>
       <div>
-        <label className="block text-xs text-zinc-500 mb-1">Nome</label>
+        <label className="block text-xs text-gray-400 mb-1">Nome</label>
         <input
           name="name"
           type="text"
           required
           placeholder="EBBQ 2026"
-          className="w-48 rounded border border-zinc-700 bg-zinc-800 px-2 py-1.5 text-sm text-white placeholder-zinc-600"
+          className="w-48 rounded border border-gray-300 bg-gray-100 px-2 py-1.5 text-sm text-gray-800 placeholder-gray-400"
         />
       </div>
       <button
         type="submit"
-        className="rounded bg-amber-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+        className="rounded bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-500 transition-colors"
       >
         Crea
       </button>
       <button
         type="button"
         onClick={() => setOpen(false)}
-        className="text-sm text-zinc-500 hover:text-white transition-colors"
+        className="text-sm text-gray-400 hover:text-gray-800 transition-colors"
       >
         Annulla
       </button>
