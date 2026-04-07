@@ -9,7 +9,6 @@ export default async function ExpensesPage() {
   const profile = await getProfile();
   const canEdit = profile.role === "admin" || profile.role === "editor";
 
-  // Get current edition
   const { data: currentEdition } = await supabase
     .from("editions")
     .select("id, name, year, show_edition_comparison")
@@ -18,35 +17,32 @@ export default async function ExpensesPage() {
 
   if (!currentEdition) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white">
-        <header className="border-b border-zinc-800 px-6 py-4">
+      <div className="min-h-screen bg-white">
+        <header className="border-b border-gray-200 px-6 py-4">
           <div className="mx-auto flex max-w-6xl items-center gap-6">
-            <Link href="/" className="text-zinc-400 hover:text-white text-sm">← Dashboard</Link>
+            <Link href="/" className="text-gray-400 hover:text-gray-700 text-sm">← Dashboard</Link>
             <h1 className="text-lg font-semibold">Spese</h1>
           </div>
         </header>
-        <div className="text-center py-12 text-zinc-400">
+        <div className="text-center py-12 text-gray-400">
           Nessuna edizione corrente. Vai nelle impostazioni per impostarne una.
         </div>
       </div>
     );
   }
 
-  // Get categories tree
   const { data: categories } = await supabase
     .from("expense_categories")
     .select("*")
     .eq("edition_id", currentEdition.id)
     .order("sort_order");
 
-  // Get festival days
   const { data: festivalDays } = await supabase
     .from("festival_days")
     .select("*")
     .eq("edition_id", currentEdition.id)
     .order("sort_order");
 
-  // Get expenses with revisions, payments, and day assignments
   const { data: expenses } = await supabase
     .from("expenses")
     .select(`
@@ -59,7 +55,6 @@ export default async function ExpensesPage() {
     .eq("edition_id", currentEdition.id)
     .order("created_at", { ascending: false });
 
-  // Previous edition comparison
   let previousEditionData: Record<string, { totalGross: number; editionName: string }> | null = null;
 
   if (currentEdition.show_edition_comparison) {
@@ -84,11 +79,8 @@ export default async function ExpensesPage() {
 
       if (prevCategories && prevExpenses) {
         previousEditionData = {};
-
-        // Group expenses by L1 category name
         for (const exp of prevExpenses) {
           let cat = exp.expense_categories;
-          // Walk up to L1
           while (cat && cat.parent_id) {
             const parent = prevCategories.find((c: { id: string }) => c.id === cat.parent_id);
             if (!parent) break;
@@ -115,12 +107,12 @@ export default async function ExpensesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      <header className="border-b border-zinc-800 px-6 py-4">
+    <div className="min-h-screen bg-white">
+      <header className="border-b border-gray-200 px-6 py-4">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-zinc-400 hover:text-white text-sm">← Dashboard</Link>
-            <h1 className="text-lg font-semibold">Spese — {currentEdition.name}</h1>
+            <Link href="/" className="text-gray-400 hover:text-gray-700 text-sm">← Dashboard</Link>
+            <h1 className="text-lg font-semibold text-green-800">Spese — {currentEdition.name}</h1>
           </div>
         </div>
       </header>

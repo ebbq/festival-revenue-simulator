@@ -42,14 +42,14 @@ export function RevenueList({
       {/* Summary */}
       <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-3">
         <SummaryCard label="Confermati" value={totalConfirmed} color="text-green-400" />
-        <SummaryCard label="Potenziali" value={totalPotential} color="text-amber-400" />
+        <SummaryCard label="Potenziali" value={totalPotential} color="text-green-600" />
         <SummaryCard label="Totale" value={totalConfirmed + totalPotential} />
       </div>
 
       {canEdit && !showForm && (
         <button
           onClick={() => setShowForm(true)}
-          className="mb-6 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+          className="mb-6 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500 transition-colors"
         >
           + Nuovo ricavo
         </button>
@@ -59,7 +59,7 @@ export function RevenueList({
 
       {showForm && (
         <form
-          className="mb-8 rounded-xl border border-zinc-800 bg-zinc-900 p-6 space-y-4"
+          className="mb-8 rounded-xl border border-gray-200 bg-white p-6 space-y-4"
           action={async (formData) => {
             setError(null);
             const result = await createRevenue(formData);
@@ -69,45 +69,45 @@ export function RevenueList({
         >
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Nuovo ricavo</h3>
-            <button type="button" onClick={() => setShowForm(false)} className="text-sm text-zinc-500 hover:text-white">Annulla</button>
+            <button type="button" onClick={() => setShowForm(false)} className="text-sm text-gray-400 hover:text-gray-800">Annulla</button>
           </div>
           <input type="hidden" name="edition_id" value={editionId} />
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Descrizione *</label>
-              <input name="description" type="text" required className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white" />
+              <label className="block text-xs text-gray-400 mb-1">Descrizione *</label>
+              <input name="description" type="text" required className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800" />
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Categoria *</label>
-              <select name="category" required className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white">
+              <label className="block text-xs text-gray-400 mb-1">Categoria *</label>
+              <select name="category" required className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800">
                 {Object.entries(CATEGORY_LABELS).map(([val, label]) => (
                   <option key={val} value={val}>{label}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Importo (€) *</label>
-              <input name="amount" type="number" step="0.01" required className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white" />
+              <label className="block text-xs text-gray-400 mb-1">Importo (€) *</label>
+              <input name="amount" type="number" step="0.01" required className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800" />
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Stato *</label>
-              <select name="status" required className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white">
+              <label className="block text-xs text-gray-400 mb-1">Stato *</label>
+              <select name="status" required className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800">
                 <option value="confirmed">Confermato</option>
                 <option value="potential">Potenziale</option>
               </select>
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Data incasso prevista</label>
-              <input name="expected_date" type="date" className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white" />
+              <label className="block text-xs text-gray-400 mb-1">Data incasso prevista</label>
+              <input name="expected_date" type="date" className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800" />
             </div>
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Note</label>
-              <input name="notes" type="text" className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-600" />
+              <label className="block text-xs text-gray-400 mb-1">Note</label>
+              <input name="notes" type="text" className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 placeholder-gray-400" />
             </div>
           </div>
 
-          <button type="submit" className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500">
+          <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500">
             Crea ricavo
           </button>
         </form>
@@ -116,10 +116,10 @@ export function RevenueList({
       {/* Table */}
       <div className="space-y-2">
         {revenues.map((rev) => (
-          <div key={rev.id} className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900/50 p-4">
+          <div key={rev.id} className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
             <div className="min-w-0 flex-1">
               <p className="font-medium">{rev.description}</p>
-              <p className="text-xs text-zinc-500 mt-0.5">
+              <p className="text-xs text-gray-400 mt-0.5">
                 {CATEGORY_LABELS[rev.category] || rev.category}
                 {rev.expected_date && (
                   <> · Incasso previsto: {new Date(rev.expected_date + "T00:00:00").toLocaleDateString("it-IT")}</>
@@ -131,7 +131,7 @@ export function RevenueList({
               <span className={`rounded-full px-2 py-0.5 text-xs ${
                 rev.status === "confirmed"
                   ? "bg-green-400/10 text-green-400"
-                  : "bg-amber-400/10 text-amber-400"
+                  : "bg-green-400/10 text-green-600"
               }`}>
                 {rev.status === "confirmed" ? "Confermato" : "Potenziale"}
               </span>
@@ -146,7 +146,7 @@ export function RevenueList({
                       if (result?.error) setError(result.error);
                     }
                   }}
-                  className="text-xs text-zinc-600 hover:text-red-400"
+                  className="text-xs text-gray-500 hover:text-red-400"
                 >
                   Elimina
                 </button>
@@ -156,7 +156,7 @@ export function RevenueList({
         ))}
 
         {revenues.length === 0 && (
-          <p className="text-center py-8 text-zinc-500">Nessun ricavo registrato.</p>
+          <p className="text-center py-8 text-gray-400">Nessun ricavo registrato.</p>
         )}
       </div>
     </div>
@@ -165,8 +165,8 @@ export function RevenueList({
 
 function SummaryCard({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
-      <p className="text-xs text-zinc-500">{label}</p>
+    <div className="rounded-lg border border-gray-200 bg-white p-4">
+      <p className="text-xs text-gray-400">{label}</p>
       <p className={`mt-1 text-lg font-mono font-semibold ${color || ""}`}>
         €{value.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
       </p>

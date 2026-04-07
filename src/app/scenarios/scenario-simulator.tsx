@@ -99,13 +99,13 @@ export function ScenarioSimulator({
   return (
     <div className="space-y-8">
       {/* Attendance sliders */}
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+      <section className="rounded-xl border border-gray-200 bg-white p-6">
         <h2 className="text-lg font-semibold mb-4">Presenze attese</h2>
         <div className="space-y-4">
           {festivalDays.map((day) => (
             <div key={day.id}>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-sm text-zinc-400">{day.label}</label>
+                <label className="text-sm text-gray-500">{day.label}</label>
                 <span className="font-mono text-sm">
                   {(attendancePerDay[day.id] || 0).toLocaleString("it-IT")}
                 </span>
@@ -122,7 +122,7 @@ export function ScenarioSimulator({
                     [day.id]: parseInt(e.target.value),
                   }))
                 }
-                className="w-full accent-amber-500"
+                className="w-full accent-green-500"
               />
             </div>
           ))}
@@ -149,22 +149,22 @@ export function ScenarioSimulator({
       </section>
 
       {/* Breakdown */}
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+      <section className="rounded-xl border border-gray-200 bg-white p-6">
         <h2 className="text-lg font-semibold mb-4">Dettaglio</h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
-            <h3 className="text-sm font-medium text-zinc-400 mb-2">Costi</h3>
+            <h3 className="text-sm font-medium text-gray-500 mb-2">Costi</h3>
             <p className="text-sm">
               Spese fisse: <span className="font-mono">€{totalFixedCosts.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
             </p>
           </div>
           <div>
-            <h3 className="text-sm font-medium text-zinc-400 mb-2">Ricavi</h3>
+            <h3 className="text-sm font-medium text-gray-500 mb-2">Ricavi</h3>
             <p className="text-sm">
               Confermati (sponsor, contributi, ecc.): <span className="font-mono">€{confirmedRevenues.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
             </p>
             <p className="text-sm">
-              Potenziali: <span className="font-mono text-amber-400">€{potentialRevenues.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
+              Potenziali: <span className="font-mono text-green-600">€{potentialRevenues.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
             </p>
             <p className="text-sm mt-1">
               F&B stimato ({totalAttendance.toLocaleString("it-IT")} presenze): <span className="font-mono">€{totalFbRevenue.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
@@ -172,7 +172,7 @@ export function ScenarioSimulator({
             {fbOperators.length > 0 && (
               <div className="ml-4 mt-1 space-y-0.5">
                 {fbOperators.map((op) => (
-                  <p key={op.id} className="text-xs text-zinc-500">
+                  <p key={op.id} className="text-xs text-gray-400">
                     {op.name}: €{estimateFbRevenue(op, totalAttendance).toLocaleString("it-IT", { minimumFractionDigits: 2 })}
                   </p>
                 ))}
@@ -184,7 +184,7 @@ export function ScenarioSimulator({
 
       {/* Save scenario */}
       {canEdit && (
-        <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+        <section className="rounded-xl border border-gray-200 bg-white p-6">
           <h2 className="text-lg font-semibold mb-4">Salva scenario</h2>
           <form
             className="flex items-end gap-3"
@@ -202,17 +202,17 @@ export function ScenarioSimulator({
             <input type="hidden" name="calculated_total_revenues" value={totalRevenues} />
             <input type="hidden" name="calculated_margin" value={margin} />
             <div className="flex-1">
-              <label className="block text-xs text-zinc-500 mb-1">Nome scenario</label>
+              <label className="block text-xs text-gray-400 mb-1">Nome scenario</label>
               <input
                 name="name"
                 required
                 value={saveName}
                 onChange={(e) => setSaveName(e.target.value)}
                 placeholder="Es. Pessimistico — 2.000 persone"
-                className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-600"
+                className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 placeholder-gray-400"
               />
             </div>
-            <button type="submit" className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500">
+            <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500">
               Salva
             </button>
           </form>
@@ -226,10 +226,10 @@ export function ScenarioSimulator({
           <h2 className="text-lg font-semibold mb-4">Scenari salvati</h2>
           <div className="space-y-2">
             {savedScenarios.map((sc) => (
-              <div key={sc.id} className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900/50 p-4">
+              <div key={sc.id} className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
                 <div>
                   <p className="font-medium">{sc.name}</p>
-                  <p className="text-xs text-zinc-500 mt-0.5">
+                  <p className="text-xs text-gray-400 mt-0.5">
                     {sc.total_attendance.toLocaleString("it-IT")} presenze ·{" "}
                     {new Date(sc.created_at).toLocaleDateString("it-IT")}
                   </p>
@@ -250,7 +250,7 @@ export function ScenarioSimulator({
                           await deleteScenario(sc.id);
                         }
                       }}
-                      className="text-xs text-zinc-600 hover:text-red-400"
+                      className="text-xs text-gray-500 hover:text-red-400"
                     >
                       Elimina
                     </button>
@@ -267,8 +267,8 @@ export function ScenarioSimulator({
 
 function ResultCard({ label, value, color }: { label: string; value: number; color?: string }) {
   return (
-    <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
-      <p className="text-xs text-zinc-500">{label}</p>
+    <div className="rounded-lg border border-gray-200 bg-white p-4">
+      <p className="text-xs text-gray-400">{label}</p>
       <p className={`mt-1 text-xl font-mono font-bold ${color || ""}`}>
         €{value.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
       </p>

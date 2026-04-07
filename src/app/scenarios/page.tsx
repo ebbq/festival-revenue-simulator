@@ -16,14 +16,14 @@ export default async function ScenariosPage() {
 
   if (!currentEdition) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white">
-        <header className="border-b border-zinc-800 px-6 py-4">
+      <div className="min-h-screen bg-white text-gray-800">
+        <header className="border-b border-gray-200 px-6 py-4">
           <div className="mx-auto flex max-w-6xl items-center gap-6">
-            <Link href="/" className="text-zinc-400 hover:text-white text-sm">← Dashboard</Link>
+            <Link href="/" className="text-gray-500 hover:text-gray-800 text-sm">← Dashboard</Link>
             <h1 className="text-lg font-semibold">Scenari</h1>
           </div>
         </header>
-        <div className="text-center py-12 text-zinc-400">Nessuna edizione corrente.</div>
+        <div className="text-center py-12 text-gray-500">Nessuna edizione corrente.</div>
       </div>
     );
   }
@@ -44,10 +44,10 @@ export default async function ScenariosPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      <header className="border-b border-zinc-800 px-6 py-4">
+    <div className="min-h-screen bg-white text-gray-800">
+      <header className="border-b border-gray-200 px-6 py-4">
         <div className="mx-auto flex max-w-6xl items-center gap-6">
-          <Link href="/" className="text-zinc-400 hover:text-white text-sm">← Dashboard</Link>
+          <Link href="/" className="text-gray-500 hover:text-gray-800 text-sm">← Dashboard</Link>
           <h1 className="text-lg font-semibold">Simulatore scenari — {currentEdition.name}</h1>
         </div>
       </header>

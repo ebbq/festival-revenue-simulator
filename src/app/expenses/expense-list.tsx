@@ -46,7 +46,6 @@ type Expense = {
 
 type PreviousEditionData = Record<string, { totalGross: number; editionName: string }>;
 
-// Helpers
 function getGrossAmount(net: number, vatApplicable: boolean, vatRate: number | null): number {
   if (!vatApplicable || !vatRate) return net;
   return net * (1 + vatRate / 100);
@@ -74,11 +73,11 @@ function fmt(n: number): string {
 // Tree
 type CategoryNode = {
   category: Category;
-  budget: number | null; // gross amount of budget entry at this category
+  budget: number | null;
   budgetExpense: Expense | null;
-  directExpenses: Expense[]; // non-budget expenses at this category
+  directExpenses: Expense[];
   children: CategoryNode[];
-  totalAllocated: number; // gross sum of all non-budget expenses (direct + recursive children)
+  totalAllocated: number;
   totalPaid: number;
 };
 
@@ -104,12 +103,7 @@ function buildCategoryTree(categories: Category[], expenses: Expense[]): Categor
     const directPaid = directExpenses.reduce((s, e) => s + getTotalPaid(e), 0);
     const childrenAllocated = children.reduce((s, c) => s + c.totalAllocated, 0);
     const childrenPaid = children.reduce((s, c) => s + c.totalPaid, 0);
-
-    // Budget expenses in children also count toward parent's allocated for hierarchy comparison
-    const childrenBudgetTotal = children.reduce(
-      (s, c) => s + (c.budget || 0),
-      0
-    );
+    const childrenBudgetTotal = children.reduce((s, c) => s + (c.budget || 0), 0);
 
     return {
       category: cat,
@@ -144,15 +138,12 @@ export function ExpenseList({
 
   const tree = buildCategoryTree(categories, expenses);
 
-  // Global totals
   const totalGross = expenses.reduce((s, e) => s + getExpenseGross(e), 0);
-  const totalBudgets = expenses.filter((e) => e.is_budget).reduce((s, e) => s + getExpenseGross(e), 0);
-  const totalAllocated = expenses.filter((e) => !e.is_budget).reduce((s, e) => s + getExpenseGross(e), 0);
-  const totalPaidAll = expenses.reduce((s, e) => s + getTotalPaid(e), 0);
   const totalVat = expenses.reduce((s, e) => {
     if (!e.vat_applicable || !e.vat_rate) return s;
     return s + getCurrentNet(e) * (e.vat_rate / 100);
   }, 0);
+  const totalPaidAll = expenses.reduce((s, e) => s + getTotalPaid(e), 0);
 
   function toggle(categoryId: string) {
     setExpandedCategories((prev) => {
@@ -167,14 +158,23 @@ export function ExpenseList({
     <div>
       {/* Summary */}
       <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-        <SummaryCard label="Totale lordo" value={totalGross} />
-        <SummaryCard label="di cui IVA" value={totalVat} sub />
-        <SummaryCard label="Pagato" value={totalPaidAll} />
+        <SummaryCard label="Totale lordo" value={totalGross} color="green" />
+        <SummaryCard label="di cui IVA" value={totalVat} muted />
+        <SummaryCard label="Pagato" value={totalPaidAll} color="sky" />
         <SummaryCard label="Residuo" value={totalGross - totalPaidAll} />
       </div>
 
-      {/* Category tree */}
-      <div className="space-y-2">
+      {/* Table header */}
+      <div className="hidden md:grid grid-cols-12 gap-2 px-4 py-2 text-xs font-medium text-gray-400 uppercase tracking-wide border-b border-gray-200">
+        <div className="col-span-4">Voce</div>
+        <div className="col-span-2 text-right">Budget</div>
+        <div className="col-span-2 text-right">Allocato</div>
+        <div className="col-span-2 text-right">Disponibile</div>
+        <div className="col-span-2 text-right">Pagato</div>
+      </div>
+
+      {/* Category rows */}
+      <div className="divide-y divide-gray-100">
         {tree.map((node) => (
           <CategorySection
             key={node.category.id}
@@ -188,11 +188,11 @@ export function ExpenseList({
             previousEditionData={previousEditionData}
           />
         ))}
-
-        {tree.length === 0 && (
-          <p className="text-center py-8 text-zinc-500">Nessuna spesa trovata.</p>
-        )}
       </div>
+
+      {tree.length === 0 && (
+        <p className="text-center py-12 text-gray-400">Nessuna spesa trovata.</p>
+      )}
     </div>
   );
 }
@@ -220,7 +220,6 @@ function CategorySection({
   const available = node.budget !== null ? node.budget - node.totalAllocated : null;
   const isOverBudget = available !== null && available < 0;
 
-  // Previous edition comparison (L1 only)
   const prevKey = node.category.name.trim().toLowerCase();
   const prevData = depth === 1 && previousEditionData ? previousEditionData[prevKey] : null;
   const prevDelta =
@@ -228,70 +227,55 @@ function CategorySection({
       ? ((node.budget - prevData.totalGross) / prevData.totalGross) * 100
       : null;
 
-  const borderClass =
-    depth === 1
-      ? "rounded-xl border border-zinc-800 bg-zinc-900"
-      : depth === 2
-        ? "border-l border-zinc-800 ml-2"
-        : "border-l border-zinc-700 ml-2";
+  const indent = depth === 1 ? "" : depth === 2 ? "pl-6" : "pl-12";
+  const bgClass = depth === 1 ? "bg-green-50/50" : "";
+  const fontClass = depth === 1 ? "font-semibold" : depth === 2 ? "font-medium text-sm" : "text-sm text-gray-600";
 
   return (
-    <div className={borderClass}>
-      {/* Header row */}
+    <div>
+      {/* Category row */}
       <button
         onClick={() => toggle(node.category.id)}
-        className={`w-full text-left ${depth === 1 ? "p-4" : "px-4 py-2"} hover:bg-zinc-800/30 transition-colors`}
+        className={`w-full grid grid-cols-12 gap-2 items-center px-4 py-3 text-left hover:bg-gray-50 transition-colors ${bgClass} ${indent}`}
       >
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="text-zinc-500 text-xs w-4 shrink-0">
-              {isExpanded ? "▼" : "▶"}
-            </span>
-            <span className={depth === 1 ? "font-semibold" : depth === 2 ? "font-medium text-sm" : "text-sm text-zinc-300"}>
-              {node.category.name}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 shrink-0 text-right">
-            {node.budget !== null && (
-              <div className="text-xs">
-                <span className="text-zinc-500">Budget </span>
-                <span className="font-mono">€{fmt(node.budget)}</span>
-              </div>
-            )}
-            <div className="text-xs">
-              <span className="text-zinc-500">Allocato </span>
-              <span className="font-mono">€{fmt(node.totalAllocated)}</span>
-            </div>
-            {available !== null && (
-              <div className="text-xs">
-                <span className="text-zinc-500">Disp. </span>
-                <span className={`font-mono ${isOverBudget ? "text-red-400" : "text-green-400"}`}>
-                  €{fmt(available)}
+        <div className="col-span-4 flex items-center gap-2 min-w-0">
+          <span className="text-gray-400 text-[10px] w-3 shrink-0">
+            {isExpanded ? "▼" : "▶"}
+          </span>
+          <span className={fontClass}>{node.category.name}</span>
+          {prevData && (
+            <span className="text-[10px] text-gray-400 hidden lg:inline">
+              {prevData.editionName}: €{fmt(prevData.totalGross)}
+              {prevDelta !== null && (
+                <span className={prevDelta > 0 ? "text-red-500 ml-0.5" : "text-green-600 ml-0.5"}>
+                  {prevDelta > 0 ? "+" : ""}{prevDelta.toFixed(0)}%
                 </span>
-              </div>
-            )}
-            {prevData && (
-              <div className="text-xs text-zinc-500">
-                <span>{prevData.editionName}: €{fmt(prevData.totalGross)}</span>
-                {prevDelta !== null && (
-                  <span className={`ml-1 ${prevDelta > 0 ? "text-red-400" : "text-green-400"}`}>
-                    {prevDelta > 0 ? "+" : ""}{prevDelta.toFixed(0)}%
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
+              )}
+            </span>
+          )}
+        </div>
+        <div className="col-span-2 text-right font-mono text-sm">
+          {node.budget !== null ? `€${fmt(node.budget)}` : "—"}
+        </div>
+        <div className="col-span-2 text-right font-mono text-sm">
+          €{fmt(node.totalAllocated)}
+        </div>
+        <div className={`col-span-2 text-right font-mono text-sm ${isOverBudget ? "text-red-600 font-semibold" : available !== null ? "text-green-600" : "text-gray-400"}`}>
+          {available !== null ? `€${fmt(available)}` : "—"}
+        </div>
+        <div className="col-span-2 text-right font-mono text-sm text-sky-600">
+          €{fmt(node.totalPaid)}
         </div>
       </button>
 
       {/* Expanded content */}
       {isExpanded && (
-        <div className={depth === 1 ? "px-4 pb-4" : "px-4 pb-2"}>
-          {/* Budget entry if exists */}
+        <div>
+          {/* Budget entry */}
           {node.budgetExpense && (
             <ExpenseRow
               expense={node.budgetExpense}
+              depth={depth}
               canEdit={canEdit}
               isExpanded={expandedExpenseId === node.budgetExpense.id}
               onToggle={() =>
@@ -307,6 +291,7 @@ function CategorySection({
             <ExpenseRow
               key={exp.id}
               expense={exp}
+              depth={depth}
               canEdit={canEdit}
               isExpanded={expandedExpenseId === exp.id}
               onToggle={() =>
@@ -336,93 +321,75 @@ function CategorySection({
 
 function ExpenseRow({
   expense,
+  depth,
   canEdit,
   isExpanded,
   onToggle,
 }: {
   expense: Expense;
+  depth: number;
   canEdit: boolean;
   isExpanded: boolean;
   onToggle: () => void;
 }) {
-  const net = getCurrentNet(expense);
   const gross = getExpenseGross(expense);
   const paid = getTotalPaid(expense);
   const remaining = gross - paid;
 
+  const indent = depth === 1 ? "pl-10" : depth === 2 ? "pl-16" : "pl-22";
+
   return (
-    <div className="mt-1">
+    <div>
       <button
         onClick={onToggle}
-        className={`w-full rounded-lg border px-3 py-2.5 text-left text-sm transition-colors ${
-          isExpanded
-            ? "border-amber-600/30 bg-zinc-800"
-            : "border-zinc-800/50 bg-zinc-800/30 hover:bg-zinc-800/50"
-        }`}
+        className={`w-full grid grid-cols-12 gap-2 items-center px-4 py-2 text-left text-sm hover:bg-sky-50/50 transition-colors ${indent} ${isExpanded ? "bg-sky-50/30" : ""}`}
       >
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 min-w-0 flex-1">
-            {/* Badge */}
-            <span
-              className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
-                expense.is_budget
-                  ? "bg-blue-500/15 text-blue-400"
-                  : "bg-zinc-700/50 text-zinc-400"
-              }`}
-              onClick={(e) => {
-                if (!canEdit) return;
-                e.stopPropagation();
-                toggleBudget(expense.id, !expense.is_budget);
-              }}
-              title={canEdit ? "Clicca per cambiare tipo" : undefined}
-            >
-              {expense.is_budget ? "Budget" : "Spesa"}
+        <div className="col-span-4 flex items-center gap-2 min-w-0">
+          <span
+            className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
+              expense.is_budget
+                ? "bg-sky-100 text-sky-700"
+                : "bg-gray-100 text-gray-600"
+            }`}
+            onClick={(e) => {
+              if (!canEdit) return;
+              e.stopPropagation();
+              toggleBudget(expense.id, !expense.is_budget);
+            }}
+            title={canEdit ? "Clicca per cambiare tipo" : undefined}
+          >
+            {expense.is_budget ? "Budget" : "Spesa"}
+          </span>
+          <span className="truncate text-gray-800">
+            {expense.description || expense.expense_categories?.name || "—"}
+          </span>
+          {expense.supplier && (
+            <span className="text-xs text-gray-400 truncate hidden lg:inline">
+              {expense.supplier}
             </span>
-
-            <span className="truncate">
-              {expense.description || expense.expense_categories?.name || "—"}
-            </span>
-            {expense.supplier && (
-              <span className="text-xs text-zinc-500 truncate hidden md:inline">
-                · {expense.supplier}
-              </span>
-            )}
-          </div>
-
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="text-right">
-              <span className="font-mono font-medium">€{fmt(gross)}</span>
-              {expense.vat_applicable && expense.vat_rate && (
-                <span className="block text-[10px] text-zinc-500">incl. IVA {expense.vat_rate}%</span>
-              )}
-            </div>
-            <div className="text-right w-28">
-              {expense.is_fully_paid ? (
-                <span className="text-xs text-green-400">Saldato</span>
-              ) : paid > 0 ? (
-                <span className="text-xs text-amber-400">
-                  Residuo €{fmt(remaining)}
-                </span>
-              ) : (
-                <span className="text-xs text-zinc-500">Da pagare</span>
-              )}
-            </div>
-          </div>
+          )}
         </div>
-
-        {/* Day badges */}
-        {!expense.is_festival_wide && expense.expense_day_assignments.length > 0 && (
-          <div className="mt-1.5 flex gap-1.5">
-            {expense.expense_day_assignments.map((a) => (
-              <span
-                key={a.festival_days.id}
-                className="rounded bg-zinc-700/50 px-1.5 py-0.5 text-[10px] text-zinc-400"
-              >
-                {a.festival_days.label}
-              </span>
-            ))}
-          </div>
-        )}
+        <div className="col-span-2 text-right font-mono">
+          {expense.is_budget ? `€${fmt(gross)}` : ""}
+        </div>
+        <div className="col-span-2 text-right font-mono">
+          {!expense.is_budget ? `€${fmt(gross)}` : ""}
+          {expense.vat_applicable && expense.vat_rate && (
+            <span className="block text-[10px] text-gray-400">incl. IVA {expense.vat_rate}%</span>
+          )}
+        </div>
+        <div className="col-span-2 text-right">
+          {/* empty for row level */}
+        </div>
+        <div className="col-span-2 text-right font-mono">
+          {expense.is_fully_paid ? (
+            <span className="text-green-600 text-xs">Saldato</span>
+          ) : paid > 0 ? (
+            <span className="text-sky-600">€{fmt(paid)}</span>
+          ) : (
+            <span className="text-gray-300 text-xs">—</span>
+          )}
+        </div>
       </button>
 
       {isExpanded && <ExpenseDetail expense={expense} canEdit={canEdit} />}
@@ -430,11 +397,25 @@ function ExpenseRow({
   );
 }
 
-function SummaryCard({ label, value, sub }: { label: string; value: number; sub?: boolean }) {
+function SummaryCard({ label, value, color, muted }: { label: string; value: number; color?: "green" | "sky"; muted?: boolean }) {
+  const valueColor = muted
+    ? "text-gray-400 text-sm"
+    : color === "green"
+      ? "text-green-700 text-lg"
+      : color === "sky"
+        ? "text-sky-600 text-lg"
+        : "text-gray-800 text-lg";
+
+  const borderColor = color === "green"
+    ? "border-green-200"
+    : color === "sky"
+      ? "border-sky-200"
+      : "border-gray-200";
+
   return (
-    <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
-      <p className={`text-xs ${sub ? "text-zinc-600" : "text-zinc-500"}`}>{label}</p>
-      <p className={`mt-1 font-mono font-semibold ${sub ? "text-sm text-zinc-400" : "text-lg"}`}>
+    <div className={`rounded-xl border ${borderColor} bg-white p-4 shadow-sm`}>
+      <p className="text-xs text-gray-500">{label}</p>
+      <p className={`mt-1 font-mono font-semibold ${valueColor}`}>
         €{fmt(value)}
       </p>
     </div>

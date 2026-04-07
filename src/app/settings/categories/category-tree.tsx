@@ -39,7 +39,7 @@ export function CategoryTree({
       )}
 
       {level1.map((l1) => (
-        <div key={l1.id} className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">
+        <div key={l1.id} className="rounded-xl border border-gray-200 bg-white p-4">
           <CategoryRow
             category={l1}
             onDelete={async () => {
@@ -55,7 +55,7 @@ export function CategoryTree({
 
           <div className="ml-4 mt-2 space-y-2">
             {getChildren(l1.id).map((l2) => (
-              <div key={l2.id} className="border-l border-zinc-800 pl-4">
+              <div key={l2.id} className="border-l border-gray-200 pl-4">
                 <CategoryRow
                   category={l2}
                   onDelete={async () => {
@@ -71,7 +71,7 @@ export function CategoryTree({
 
                 <div className="ml-4 mt-1 space-y-1">
                   {getChildren(l2.id).map((l3) => (
-                    <div key={l3.id} className="border-l border-zinc-700 pl-4">
+                    <div key={l3.id} className="border-l border-gray-300 pl-4">
                       <CategoryRow
                         category={l3}
                         onDelete={async () => {
@@ -139,7 +139,7 @@ function CategoryRow({
       ? "text-base font-semibold"
       : category.level === 2
         ? "text-sm font-medium"
-        : "text-sm text-zinc-300";
+        : "text-sm text-gray-600";
 
   if (editing) {
     return (
@@ -147,7 +147,7 @@ function CategoryRow({
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="rounded border border-zinc-700 bg-zinc-800 px-2 py-0.5 text-sm text-white"
+          className="rounded border border-gray-300 bg-gray-100 px-2 py-0.5 text-sm text-gray-800"
           autoFocus
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -165,7 +165,7 @@ function CategoryRow({
             onRename(name);
             setEditing(false);
           }}
-          className="text-xs text-amber-400"
+          className="text-xs text-green-600"
         >
           Salva
         </button>
@@ -174,7 +174,7 @@ function CategoryRow({
             setName(category.name);
             setEditing(false);
           }}
-          className="text-xs text-zinc-500"
+          className="text-xs text-gray-400"
         >
           Annulla
         </button>
@@ -188,13 +188,13 @@ function CategoryRow({
       <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={() => setEditing(true)}
-          className="text-xs text-zinc-500 hover:text-white"
+          className="text-xs text-gray-400 hover:text-gray-800"
         >
           Rinomina
         </button>
         <button
           onClick={onDelete}
-          className="text-xs text-zinc-500 hover:text-red-400"
+          className="text-xs text-gray-400 hover:text-red-400"
         >
           Elimina
         </button>
@@ -231,7 +231,7 @@ function AddCategoryInline({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="mt-1 text-xs text-amber-400/70 hover:text-amber-300 transition-colors"
+        className="mt-1 text-xs text-green-600/70 hover:text-green-500 transition-colors"
       >
         {label || defaultLabel}
       </button>
@@ -259,21 +259,21 @@ function AddCategoryInline({
         required
         autoFocus
         placeholder="Nome..."
-        className="w-48 rounded border border-zinc-700 bg-zinc-800 px-2 py-0.5 text-sm text-white placeholder-zinc-600"
+        className="w-48 rounded border border-gray-300 bg-gray-100 px-2 py-0.5 text-sm text-gray-800 placeholder-gray-400"
         onKeyDown={(e) => {
           if (e.key === "Escape") setOpen(false);
         }}
       />
       <button
         type="submit"
-        className="rounded bg-amber-600 px-2 py-0.5 text-xs font-medium text-white hover:bg-amber-500"
+        className="rounded bg-green-600 px-2 py-0.5 text-xs font-medium text-white hover:bg-green-500"
       >
         Crea
       </button>
       <button
         type="button"
         onClick={() => setOpen(false)}
-        className="text-xs text-zinc-500 hover:text-white"
+        className="text-xs text-gray-400 hover:text-gray-800"
       >
         Annulla
       </button>

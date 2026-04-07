@@ -14,27 +14,27 @@ export default async function SettingsLayout({
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
-      <header className="border-b border-zinc-800 px-6 py-4">
+    <div className="min-h-screen bg-white">
+      <header className="border-b border-gray-200 px-6 py-4">
         <div className="mx-auto flex max-w-4xl items-center gap-6">
-          <Link href="/" className="text-zinc-400 hover:text-white text-sm">
+          <Link href="/" className="text-gray-400 hover:text-gray-700 text-sm">
             ← Dashboard
           </Link>
-          <h1 className="text-lg font-semibold">Impostazioni</h1>
+          <h1 className="text-lg font-semibold text-green-800">Impostazioni</h1>
         </div>
       </header>
 
       <div className="mx-auto max-w-4xl px-6 py-6">
-        <nav className="mb-8 flex gap-4 border-b border-zinc-800 pb-4">
+        <nav className="mb-8 flex gap-4 border-b border-gray-200 pb-4">
           <Link
             href="/settings/editions"
-            className="rounded-lg px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors"
+            className="rounded-lg px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
           >
             Edizioni e Giorni
           </Link>
           <Link
             href="/settings/categories"
-            className="rounded-lg px-3 py-1.5 text-sm text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors"
+            className="rounded-lg px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
           >
             Categorie Spesa
           </Link>
