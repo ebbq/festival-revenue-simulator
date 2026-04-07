@@ -1,7 +1,7 @@
 # PRD — EBBQ Festival Management System
 
-**Versione**: 1.0
-**Ultimo aggiornamento**: 2026-04-07
+**Versione**: 1.1
+**Ultimo aggiornamento**: 2026-04-08
 **Stato**: In definizione
 
 ---
@@ -164,10 +164,19 @@ Vista sintetica per stakeholder esterni (sponsor, Comune). Non inclusa nel primo
 
 | Layer | Tecnologia |
 |-------|-----------|
-| Frontend | Next.js 15 + Tailwind CSS |
+| Frontend | Next.js 16 + React + Tailwind CSS v4 |
 | Auth | Supabase Auth |
 | Database | Supabase Postgres |
 | Deploy | Vercel |
+
+---
+
+## UI e brand
+
+- **Palette**: colori da visual identity EBBQ (coral, olive, periwinkle, giallo tramonto), esposti come CSS variables e utility Tailwind in `src/app/globals.css`
+- **Leggibilità**: UI chiara; CTA principali in giallo con testo scuro; bottoni “salva” / traccia spese su toni olive; traccia informativa secondaria (anticipi, ricavi) su periwinkle
+- **Logo**: primario Electronic BBQ in header (dashboard, login, moduli operativi)
+- **Numeri in interfaccia**: formattazione italiana tramite helper condivisi (`format-it.ts`) per evitare differenze tra rendering server e browser
 
 ---
 
@@ -177,3 +186,4 @@ Vista sintetica per stakeholder esterni (sponsor, Comune). Non inclusa nel primo
 - F&B a %: doppio campo budget/consuntivo per permettere stima e controllo a posteriori
 - Dati F&B interno: inseriti solo dall'Admin (una persona)
 - Sponsor: tutti a importo fisso (nessun sponsor legato alle presenze)
+- Numeri mostrati all’utente: formattazione IT centralizzata e deterministica (vedi `docs/INDEX.md` — `format-it.ts`)

@@ -4,6 +4,27 @@ Tutte le modifiche significative al progetto.
 
 ---
 
+## 2026-04-08 — UI: palette EBBQ, logo, formattazione numeri, form nuova spesa
+
+### Identità visiva (Tailwind v4 + CSS variables)
+- Palette da visual identity: coral, olive (primary), periwinkle (secondary), giallo (CTA), con varianti `*-solid` per contrasto su bottoni
+- Token in `src/app/globals.css` (`:root` + `@theme inline`): `background`, `foreground`, `primary*`, `secondary*`, `accent`, `cta*`, `focus` (ring)
+- Sostituiti i colori generici `green-*` / `sky-*` nelle schermate con le utility semantiche
+- Body del layout allineato a `bg-background text-foreground`
+
+### Logo
+- Asset in `public/brand/ebbq-logo-primary.png` (logo primario Electronic BBQ)
+- Componente `src/components/ebbq-logo.tsx` (`next/image`): dashboard, login, header moduli (spese, ricavi, F&B, scenari, impostazioni)
+
+### Idratazione React / numeri
+- `src/lib/format-it.ts`: `formatItDecimal`, `formatItInteger` — formattazione italiana deterministica (evita mismatch SSR/client su `toLocaleString("it-IT")`)
+- Usato in liste spese/dettaglio, ricavi, F&B, simulatore scenari
+
+### Form nuova spesa
+- `new-expense-form.tsx`: tema chiaro coerente (card bianca, input `gray-100`, focus periwinkle, CTA giallo per “+ Nuova voce”, submit olive `primary-solid`)
+
+---
+
 ## 2026-04-08 — Ristrutturazione spese (branch: feature/expense-restructure)
 
 ### Budget vs Spese allocate

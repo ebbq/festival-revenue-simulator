@@ -8,6 +8,9 @@
 
 ```
 coding/
+├── public/
+│   └── brand/
+│       └── ebbq-logo-primary.png   # Logo primario (anche da electronicbbq.it)
 ├── docs/
 │   ├── INDEX.md             # Questo file
 │   ├── CHANGELOG.md         # Log modifiche
@@ -19,9 +22,9 @@ coding/
 │       └── 002_budget_and_comparison.sql  # is_budget + show_edition_comparison
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx       # Layout principale
+│   │   ├── layout.tsx       # Layout principale (bg-background, font Geist)
 │   │   ├── page.tsx         # Homepage / Dashboard
-│   │   ├── globals.css      # Stili globali
+│   │   ├── globals.css      # Token colore EBBQ + @theme inline (Tailwind v4)
 │   │   ├── login/
 │   │   │   ├── page.tsx     # Pagina login
 │   │   │   └── actions.ts   # Login/logout server actions
@@ -50,8 +53,11 @@ coding/
 │   │       ├── page.tsx     # Simulatore scenari
 │   │       ├── actions.ts   # Salva/elimina scenari
 │   │       └── scenario-simulator.tsx
+│   ├── components/
+│   │   └── ebbq-logo.tsx    # Logo brand (Image + link opzionale alla dashboard)
 │   ├── lib/
 │   │   ├── auth.ts          # Helper getProfile()
+│   │   ├── format-it.ts     # Formattazione numeri IT deterministica (no hydration mismatch)
 │   │   └── supabase/
 │   │       ├── client.ts    # Client browser
 │   │       ├── server.ts    # Client server
@@ -69,8 +75,17 @@ coding/
 | next (v16) | Framework React |
 | @supabase/supabase-js | Client Supabase |
 | @supabase/ssr | Auth SSR per Next.js |
-| tailwindcss | CSS |
+| tailwindcss | CSS (v4, `@import "tailwindcss"`) |
 | typescript | Type safety |
+
+## UI e design system
+
+| Elemento | Dove / come |
+|----------|----------------|
+| Palette | Variabili `--palette-*` e semantiche in `src/app/globals.css` |
+| Utility Tailwind | Es. `bg-primary-solid`, `text-secondary-solid`, `bg-cta`, `text-cta-foreground`, `ring-focus` |
+| Logo | `EbbqLogo` in `@/components/ebbq-logo`, file in `public/brand/` |
+| Importi in UI | `formatItDecimal` / `formatItInteger` da `@/lib/format-it` (mai `toLocaleString` per soldi in componenti idratati) |
 
 ## Stato dei moduli
 
@@ -82,6 +97,6 @@ coding/
 | Ricavi | Fatto | /revenues |
 | Ristorazione (F&B) | Fatto | /fb |
 | Simulatore scenari | Fatto | /scenarios |
-| Dashboard | Da fare | / |
+| Dashboard | Fatto (card verso moduli) | / |
 | Storico edizioni | Da fare | — |
 | Report esterno | Futuro | — |
