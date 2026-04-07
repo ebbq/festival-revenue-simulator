@@ -8,68 +8,79 @@
 
 ```
 coding/
-├── docs/                    # Documentazione di progetto
-│   ├── INDEX.md             # Questo file — mappa del progetto
-│   ├── CHANGELOG.md         # Log di tutte le modifiche
-│   ├── PRD.md               # Product Requirements Document v1.0
-│   └── DATA_MODEL.md        # Schema database (v1.1, applicato)
+├── docs/
+│   ├── INDEX.md             # Questo file
+│   ├── CHANGELOG.md         # Log modifiche
+│   ├── PRD.md               # Product Requirements v1.0
+│   └── DATA_MODEL.md        # Schema database v1.1
 ├── supabase/
 │   └── migrations/
-│       └── 001_initial_schema.sql  # Schema iniziale DB (13 tabelle + RLS + triggers)
+│       └── 001_initial_schema.sql
 ├── src/
-│   └── app/
-│       ├── layout.tsx       # Layout principale Next.js
-│       ├── page.tsx         # Homepage (attualmente: health check)
-│       ├── globals.css      # Stili globali Tailwind
-│       └── favicon.ico
-├── public/                  # File statici
+│   ├── app/
+│   │   ├── layout.tsx       # Layout principale
+│   │   ├── page.tsx         # Homepage / Dashboard
+│   │   ├── globals.css      # Stili globali
+│   │   ├── login/
+│   │   │   ├── page.tsx     # Pagina login
+│   │   │   └── actions.ts   # Login/logout server actions
+│   │   ├── auth/
+│   │   │   └── callback/route.ts  # OAuth callback
+│   │   ├── settings/
+│   │   │   ├── layout.tsx   # Layout settings (admin-only)
+│   │   │   ├── page.tsx     # Redirect a /editions
+│   │   │   ├── editions/    # Gestione edizioni e giorni
+│   │   │   └── categories/  # Albero categorie spesa (3 livelli)
+│   │   ├── expenses/
+│   │   │   ├── page.tsx     # Lista spese con sommario
+│   │   │   ├── actions.ts   # CRUD spese, revisioni, pagamenti
+│   │   │   ├── new-expense-form.tsx
+│   │   │   ├── expense-list.tsx
+│   │   │   └── expense-detail.tsx  # Storico revisioni + pagamenti
+│   │   ├── revenues/
+│   │   │   ├── page.tsx     # Lista ricavi
+│   │   │   ├── actions.ts   # CRUD ricavi
+│   │   │   └── revenue-list.tsx
+│   │   ├── fb/
+│   │   │   ├── page.tsx     # Operatori F&B
+│   │   │   ├── actions.ts   # CRUD operatori + consuntivi
+│   │   │   └── fb-operator-list.tsx
+│   │   └── scenarios/
+│   │       ├── page.tsx     # Simulatore scenari
+│   │       ├── actions.ts   # Salva/elimina scenari
+│   │       └── scenario-simulator.tsx
+│   ├── lib/
+│   │   ├── auth.ts          # Helper getProfile()
+│   │   └── supabase/
+│   │       ├── client.ts    # Client browser
+│   │       ├── server.ts    # Client server
+│   │       └── middleware.ts # Session refresh
+│   └── middleware.ts         # Auth middleware (redirect se non loggato)
 ├── .env.local               # Variabili d'ambiente (NON su git)
-├── package.json             # Dipendenze npm
-├── next.config.ts           # Configurazione Next.js
-├── tsconfig.json            # Configurazione TypeScript
-└── postcss.config.mjs       # Configurazione PostCSS
+├── .claude/launch.json      # Config dev server
+└── package.json
 ```
 
 ## Dipendenze principali
 
 | Pacchetto | Scopo |
 |-----------|-------|
-| next | Framework React (v15) |
-| react / react-dom | UI library |
-| @supabase/supabase-js | Client Supabase per DB e Auth |
-| tailwindcss | Utility-first CSS |
+| next (v16) | Framework React |
+| @supabase/supabase-js | Client Supabase |
+| @supabase/ssr | Auth SSR per Next.js |
+| tailwindcss | CSS |
 | typescript | Type safety |
 
-## Infrastruttura
+## Stato dei moduli
 
-| Servizio | Scopo | URL |
-|----------|-------|-----|
-| GitHub | Repository codice | github.com/ebbq/festival-revenue-simulator |
-| Vercel | Hosting e deploy automatico | (collegato alla repo) |
-| Supabase | Database PostgreSQL + Auth | (progetto configurato, schema applicato) |
-
-## Database
-
-13 tabelle su Supabase — dettagli in `DATA_MODEL.md`:
-- `profiles` — utenti e ruoli (admin/editor/viewer)
-- `editions`, `festival_days` — edizioni e giorni configurabili
-- `expense_categories` — albero 3 livelli (self-referencing)
-- `expenses`, `expense_revisions`, `expense_payments`, `expense_day_assignments` — spese con storico e pagamenti
-- `revenues` — ricavi (sponsor, contributi, merch)
-- `fb_operators`, `fb_actuals` — modulo ristorazione
-- `scenarios` — simulazioni salvate
-- `edition_history` — KPI storici
-
-## Stato dei moduli (da PRD)
-
-| Modulo | Stato |
-|--------|-------|
-| Database schema | Applicato |
-| Auth (login/ruoli) | Da fare |
-| Piano di spesa | Da fare |
-| Ristorazione (F&B) | Da fare |
-| Ricavi | Da fare |
-| Simulatore scenari | Da fare |
-| Dashboard | Da fare |
-| Storico edizioni | Da fare |
-| Report esterno | Futuro |
+| Modulo | Stato | Route |
+|--------|-------|-------|
+| Auth | Fatto | /login |
+| Impostazioni (edizioni, giorni, categorie) | Fatto | /settings |
+| Spese (CRUD + revisioni + pagamenti + IVA) | Fatto | /expenses |
+| Ricavi | Fatto | /revenues |
+| Ristorazione (F&B) | Fatto | /fb |
+| Simulatore scenari | Fatto | /scenarios |
+| Dashboard | Da fare | / |
+| Storico edizioni | Da fare | — |
+| Report esterno | Futuro | — |
