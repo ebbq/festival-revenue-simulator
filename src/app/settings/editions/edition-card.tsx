@@ -1,6 +1,6 @@
 "use client";
 
-import { setCurrentEdition, deleteFestivalDay } from "./actions";
+import { setCurrentEdition, deleteFestivalDay, toggleEditionComparison } from "./actions";
 import { DayForm } from "./day-form";
 
 type FestivalDay = {
@@ -15,6 +15,7 @@ type Edition = {
   name: string;
   year: number;
   is_current: boolean;
+  show_edition_comparison: boolean;
 };
 
 export function EditionCard({
@@ -54,6 +55,19 @@ export function EditionCard({
             Imposta come corrente
           </button>
         )}
+      </div>
+
+      {/* Edition comparison toggle */}
+      <div className="mt-4 border-t border-zinc-800 pt-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={edition.show_edition_comparison}
+            onChange={(e) => toggleEditionComparison(edition.id, e.target.checked)}
+            className="rounded border-zinc-700"
+          />
+          <span className="text-sm text-zinc-400">Mostra confronto con edizione precedente nelle spese</span>
+        </label>
       </div>
 
       <div className="mt-4 border-t border-zinc-800 pt-4">

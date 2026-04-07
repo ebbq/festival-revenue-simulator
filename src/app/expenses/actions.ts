@@ -8,7 +8,7 @@ export async function createExpense(formData: FormData) {
 
   const edition_id = formData.get("edition_id") as string;
   const category_id = formData.get("category_id") as string;
-  const description = formData.get("description") as string;
+  const description = (formData.get("description") as string) || null;
   const supplier = (formData.get("supplier") as string) || null;
   const supplier_ref = (formData.get("supplier_ref") as string) || null;
   const vat_applicable = formData.get("vat_applicable") === "on";
@@ -16,12 +16,12 @@ export async function createExpense(formData: FormData) {
   const vat_rate = vat_applicable && vat_rate_raw ? parseFloat(vat_rate_raw) : null;
   const initial_amount = parseFloat(formData.get("initial_amount") as string);
   const notes = (formData.get("notes") as string) || null;
+  const is_budget = !description || description.trim() === "";
 
   // Day assignments
   const is_festival_wide = formData.get("is_festival_wide") === "on";
   const day_ids = formData.getAll("day_ids") as string[];
 
-  // Create expense
   const { data: expense, error } = await supabase
     .from("expenses")
     .insert({
@@ -33,6 +33,7 @@ export async function createExpense(formData: FormData) {
       vat_applicable,
       vat_rate,
       is_festival_wide,
+      is_budget,
       notes,
     })
     .select("id")
@@ -40,14 +41,12 @@ export async function createExpense(formData: FormData) {
 
   if (error) return { error: error.message };
 
-  // Create initial revision
   await supabase.from("expense_revisions").insert({
     expense_id: expense.id,
     amount: initial_amount,
-    note: "Stanziamento iniziale",
+    note: is_budget ? "Budget iniziale" : "Stanziamento iniziale",
   });
 
-  // Create day assignments
   if (!is_festival_wide && day_ids.length > 0) {
     await supabase.from("expense_day_assignments").insert(
       day_ids.map((day_id) => ({
@@ -109,6 +108,17 @@ export async function markFullyPaid(expenseId: string) {
   revalidatePath("/expenses");
 }
 
+export async function toggleBudget(expenseId: string, isBudget: boolean) {
+  const supabase = await createClient();
+
+  await supabase
+    .from("expenses")
+    .update({ is_budget: isBudget })
+    .eq("id", expenseId);
+
+  revalidatePath("/expenses");
+}
+
 export async function deleteExpense(expenseId: string) {
   const supabase = await createClient();
 
@@ -122,7 +132,7 @@ export async function updateExpense(formData: FormData) {
   const supabase = await createClient();
 
   const expense_id = formData.get("expense_id") as string;
-  const description = formData.get("description") as string;
+  const description = (formData.get("description") as string) || null;
   const supplier = (formData.get("supplier") as string) || null;
   const supplier_ref = (formData.get("supplier_ref") as string) || null;
   const vat_applicable = formData.get("vat_applicable") === "on";

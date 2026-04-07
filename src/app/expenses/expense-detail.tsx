@@ -5,7 +5,8 @@ import { addRevision, addPayment, markFullyPaid, deleteExpense } from "./actions
 
 type Expense = {
   id: string;
-  description: string;
+  description: string | null;
+  is_budget: boolean;
   supplier: string | null;
   supplier_ref: string | null;
   vat_applicable: boolean;
@@ -46,11 +47,22 @@ export function ExpenseDetail({
   );
 
   const currentAmount = revisions.length > 0 ? revisions[revisions.length - 1].amount : 0;
+  const grossAmount = expense.vat_applicable && expense.vat_rate
+    ? currentAmount * (1 + expense.vat_rate / 100)
+    : currentAmount;
   const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
 
   return (
-    <div className="ml-4 mr-4 mb-2 rounded-b-lg border border-t-0 border-zinc-800 bg-zinc-900/80 p-5 space-y-5">
+    <div className="ml-1 mr-1 mb-2 rounded-b-lg border border-t-0 border-zinc-800 bg-zinc-900/80 p-5 space-y-5">
       {error && <p className="text-sm text-red-400">{error}</p>}
+
+      {/* Gross amount note */}
+      {expense.vat_applicable && expense.vat_rate && (
+        <p className="text-sm text-zinc-300">
+          Importo lordo: <span className="font-mono font-medium">€{grossAmount.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
+          <span className="text-zinc-500"> (incl. IVA {expense.vat_rate}%)</span>
+        </p>
+      )}
 
       {/* Info */}
       {(expense.supplier || expense.notes) && (

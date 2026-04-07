@@ -53,6 +53,18 @@ export async function addFestivalDay(formData: FormData) {
   revalidatePath("/settings/editions");
 }
 
+export async function toggleEditionComparison(editionId: string, enabled: boolean) {
+  const supabase = await createClient();
+
+  await supabase
+    .from("editions")
+    .update({ show_edition_comparison: enabled })
+    .eq("id", editionId);
+
+  revalidatePath("/settings/editions");
+  revalidatePath("/expenses");
+}
+
 export async function deleteFestivalDay(dayId: string) {
   const supabase = await createClient();
   const { error } = await supabase.from("festival_days").delete().eq("id", dayId);
