@@ -1,21 +1,63 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafb;
-  --foreground: #1a2e1a;
-  --primary: #3b9b4a;
-  --primary-light: #e8f5e9;
-  --sky: #0ea5e9;
-  --sky-light: #e0f2fe;
+  --palette-coral: #e96d63;
+  --palette-olive: #95a952;
+  --palette-periwinkle: #6371a9;
+  --palette-yellow: #f9e954;
+
+  --background: #f4f5f8;
+  --foreground: #252b3d;
+
+  --primary: var(--palette-olive);
+  --primary-foreground: #ffffff;
+  --primary-solid: #6f7d42;
+  --primary-solid-hover: #5f6c38;
+  --primary-subtle: color-mix(in srgb, var(--palette-olive) 14%, white);
+  --primary-soft: #a8b86c;
+  --primary-dark: #4a5630;
+
+  --secondary: var(--palette-periwinkle);
+  --secondary-foreground: #ffffff;
+  --secondary-solid: #4d5682;
+  --secondary-solid-hover: #424a70;
+  --secondary-subtle: color-mix(in srgb, var(--palette-periwinkle) 14%, white);
+  --secondary-soft: #8b94c4;
+
+  --accent: var(--palette-coral);
+  --cta: var(--palette-yellow);
+  --cta-foreground: #1e2230;
+  --cta-hover: #ebe24a;
+
+  --focus: var(--palette-periwinkle);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --color-primary: var(--primary);
-  --color-primary-light: var(--primary-light);
-  --color-sky: var(--sky);
-  --color-sky-light: var(--sky-light);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-solid: var(--primary-solid);
+  --color-primary-solid-hover: var(--primary-solid-hover);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-dark: var(--primary-dark);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-solid: var(--secondary-solid);
+  --color-secondary-solid-hover: var(--secondary-solid-hover);
+  --color-secondary-subtle: var(--secondary-subtle);
+  --color-secondary-soft: var(--secondary-soft);
+
+  --color-accent: var(--accent);
+  --color-cta: var(--cta);
+  --color-cta-foreground: var(--cta-foreground);
+  --color-cta-hover: var(--cta-hover);
+
+  --color-focus: var(--focus);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

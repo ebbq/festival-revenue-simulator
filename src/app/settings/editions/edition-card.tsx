@@ -30,7 +30,7 @@ export function EditionCard({
   return (
     <div
       className={`rounded-xl border p-5 bg-white shadow-sm ${
-        edition.is_current ? "border-green-300" : "border-gray-200"
+        edition.is_current ? "border-primary/40" : "border-gray-200"
       }`}
     >
       <div className="flex items-center justify-between">
@@ -38,7 +38,7 @@ export function EditionCard({
           <h3 className="font-medium text-gray-800">
             {edition.name}
             {edition.is_current && (
-              <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
+              <span className="ml-2 rounded-full bg-primary-subtle px-2 py-0.5 text-xs text-primary-dark">
                 Corrente
               </span>
             )}
@@ -48,7 +48,7 @@ export function EditionCard({
         {!edition.is_current && (
           <button
             onClick={() => setCurrentEdition(edition.id)}
-            className="text-sm text-gray-400 hover:text-green-600 transition-colors"
+            className="text-sm text-gray-400 hover:text-primary transition-colors"
           >
             Imposta come corrente
           </button>

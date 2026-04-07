@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { addRevision, addPayment, markFullyPaid, deleteExpense, updateExpense } from "./actions";
+import { formatItDecimal } from "@/lib/format-it";
 
 type Expense = {
   id: string;
@@ -60,7 +61,7 @@ export function ExpenseDetail({
       {/* Gross amount */}
       {expense.vat_applicable && expense.vat_rate && (
         <p className="text-sm text-gray-700">
-          Importo lordo: <span className="font-mono font-semibold">€{grossAmount.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
+          Importo lordo: <span className="font-mono font-semibold">€{formatItDecimal(grossAmount)}</span>
           <span className="text-gray-400 ml-1">(incl. IVA {expense.vat_rate}%)</span>
         </p>
       )}
@@ -120,7 +121,7 @@ export function ExpenseDetail({
             </div>
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="rounded bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-500">Salva</button>
+            <button type="submit" className="rounded bg-primary-solid px-3 py-1 text-xs font-medium text-primary-foreground hover:bg-primary-solid-hover">Salva</button>
             <button type="button" onClick={() => setShowEditForm(false)} className="text-xs text-gray-500 hover:text-gray-700">Annulla</button>
           </div>
         </form>
@@ -139,11 +140,11 @@ export function ExpenseDetail({
                   {new Date(rev.created_at).toLocaleDateString("it-IT")}
                 </span>
                 <span className="font-mono text-gray-800">
-                  €{rev.amount.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                  €{formatItDecimal(rev.amount)}
                 </span>
                 {diff !== null && (
-                  <span className={`text-xs ${diff > 0 ? "text-red-500" : "text-green-600"}`}>
-                    {diff > 0 ? "+" : ""}€{diff.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                  <span className={`text-xs ${diff > 0 ? "text-red-500" : "text-primary"}`}>
+                    {diff > 0 ? "+" : ""}€{formatItDecimal(diff)}
                   </span>
                 )}
                 {rev.note && <span className="text-gray-400 text-xs">{rev.note}</span>}
@@ -155,7 +156,7 @@ export function ExpenseDetail({
         {canEdit && !showRevisionForm && (
           <button
             onClick={() => setShowRevisionForm(true)}
-            className="mt-2 text-xs text-green-600 hover:text-green-500"
+            className="mt-2 text-xs text-primary hover:text-primary-solid"
           >
             + Nuova revisione
           </button>
@@ -180,7 +181,7 @@ export function ExpenseDetail({
               <label className="block text-xs text-gray-500 mb-1">Motivo</label>
               <input name="note" type="text" placeholder="Motivo revisione..." className="w-48 rounded border border-gray-300 bg-white px-2 py-1 text-sm placeholder-gray-400" />
             </div>
-            <button type="submit" className="rounded bg-green-600 px-2 py-1 text-xs font-medium text-white hover:bg-green-500">Salva</button>
+            <button type="submit" className="rounded bg-primary-solid px-2 py-1 text-xs font-medium text-primary-foreground hover:bg-primary-solid-hover">Salva</button>
             <button type="button" onClick={() => setShowRevisionForm(false)} className="text-xs text-gray-500 hover:text-gray-700">Annulla</button>
           </form>
         )}
@@ -198,16 +199,16 @@ export function ExpenseDetail({
                   {new Date(pay.paid_at + "T00:00:00").toLocaleDateString("it-IT")}
                 </span>
                 <span className="font-mono text-gray-800">
-                  €{pay.amount.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                  €{formatItDecimal(pay.amount)}
                 </span>
-                <span className={`text-xs ${pay.is_advance ? "text-sky-600" : "text-green-600"}`}>
+                <span className={`text-xs ${pay.is_advance ? "text-secondary-solid" : "text-primary"}`}>
                   {pay.is_advance ? "Anticipo" : "Saldo"}
                 </span>
                 {pay.note && <span className="text-gray-400 text-xs">{pay.note}</span>}
               </div>
             ))}
             <p className="text-xs text-gray-400 mt-1">
-              Totale pagato: €{totalPaid.toLocaleString("it-IT", { minimumFractionDigits: 2 })} / €{currentAmount.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+              Totale pagato: €{formatItDecimal(totalPaid)} / €{formatItDecimal(currentAmount)}
             </p>
           </div>
         ) : (
@@ -218,11 +219,11 @@ export function ExpenseDetail({
           <div className="mt-2 flex gap-3">
             {!showPaymentForm && (
               <>
-                <button onClick={() => setShowPaymentForm(true)} className="text-xs text-green-600 hover:text-green-500">
+                <button onClick={() => setShowPaymentForm(true)} className="text-xs text-primary hover:text-primary-solid">
                   + Registra pagamento
                 </button>
                 {totalPaid >= currentAmount && (
-                  <button onClick={() => markFullyPaid(expense.id)} className="text-xs text-sky-600 hover:text-sky-500">
+                  <button onClick={() => markFullyPaid(expense.id)} className="text-xs text-secondary-solid hover:text-secondary">
                     Segna come saldato
                   </button>
                 )}
@@ -257,7 +258,7 @@ export function ExpenseDetail({
             <div>
               <input name="note" type="text" placeholder="Nota..." className="w-32 rounded border border-gray-300 bg-white px-2 py-1 text-sm placeholder-gray-400" />
             </div>
-            <button type="submit" className="rounded bg-green-600 px-2 py-1 text-xs font-medium text-white hover:bg-green-500">Salva</button>
+            <button type="submit" className="rounded bg-primary-solid px-2 py-1 text-xs font-medium text-primary-foreground hover:bg-primary-solid-hover">Salva</button>
             <button type="button" onClick={() => setShowPaymentForm(false)} className="text-xs text-gray-500 hover:text-gray-700">Annulla</button>
           </form>
         )}
@@ -269,7 +270,7 @@ export function ExpenseDetail({
           {!showEditForm && (
             <button
               onClick={() => setShowEditForm(true)}
-              className="text-xs text-sky-600 hover:text-sky-500"
+              className="text-xs text-secondary-solid hover:text-secondary"
             >
               Modifica
             </button>

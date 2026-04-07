@@ -11,7 +11,7 @@ export function EditionForm() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-sm text-green-600 hover:text-green-500 transition-colors"
+        className="text-sm text-primary hover:text-primary-solid transition-colors"
       >
         + Nuova edizione
       </button>
@@ -53,7 +53,7 @@ export function EditionForm() {
       </div>
       <button
         type="submit"
-        className="rounded bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-500 transition-colors"
+        className="rounded bg-primary-solid px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary-solid-hover transition-colors"
       >
         Crea
       </button>

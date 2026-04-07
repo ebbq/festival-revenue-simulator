@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/auth";
 import Link from "next/link";
+import { EbbqLogo } from "@/components/ebbq-logo";
 import { RevenueList } from "./revenue-list";
 
 export default async function RevenuesPage() {
@@ -18,7 +19,8 @@ export default async function RevenuesPage() {
     return (
       <div className="min-h-screen bg-white">
         <header className="border-b border-gray-200 px-6 py-4">
-          <div className="mx-auto flex max-w-6xl items-center gap-6">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 sm:gap-6">
+            <EbbqLogo href="/" heightClass="h-7" />
             <Link href="/" className="text-gray-400 hover:text-gray-700 text-sm">← Dashboard</Link>
             <h1 className="text-lg font-semibold">Ricavi</h1>
           </div>
@@ -39,7 +41,8 @@ export default async function RevenuesPage() {
   return (
     <div className="min-h-screen bg-white">
       <header className="border-b border-gray-200 px-6 py-4">
-        <div className="mx-auto flex max-w-6xl items-center gap-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 sm:gap-6">
+          <EbbqLogo href="/" heightClass="h-7" />
           <Link href="/" className="text-gray-400 hover:text-gray-700 text-sm">← Dashboard</Link>
           <h1 className="text-lg font-semibold">Ricavi — {currentEdition.name}</h1>
         </div>

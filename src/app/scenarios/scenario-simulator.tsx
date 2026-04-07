@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { saveScenario, deleteScenario } from "./actions";
+import { formatItDecimal, formatItInteger } from "@/lib/format-it";
 
 type FestivalDay = { id: string; label: string; date: string };
 type Expense = {
@@ -107,7 +108,7 @@ export function ScenarioSimulator({
               <div className="flex items-center justify-between mb-1">
                 <label className="text-sm text-gray-500">{day.label}</label>
                 <span className="font-mono text-sm">
-                  {(attendancePerDay[day.id] || 0).toLocaleString("it-IT")}
+                  {formatItInteger(attendancePerDay[day.id] || 0)}
                 </span>
               </div>
               <input
@@ -122,12 +123,12 @@ export function ScenarioSimulator({
                     [day.id]: parseInt(e.target.value),
                   }))
                 }
-                className="w-full accent-green-500"
+                className="w-full accent-primary-solid"
               />
             </div>
           ))}
           <p className="text-right text-sm font-medium mt-2">
-            Totale: <span className="font-mono">{totalAttendance.toLocaleString("it-IT")}</span> presenze
+            Totale: <span className="font-mono">{formatItInteger(totalAttendance)}</span> presenze
           </p>
         </div>
       </section>
@@ -135,16 +136,16 @@ export function ScenarioSimulator({
       {/* Results */}
       <section className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <ResultCard label="Costi totali" value={totalFixedCosts} color="text-red-400" />
-        <ResultCard label="Ricavi confermati + F&B" value={totalRevenues} color="text-green-400" />
+        <ResultCard label="Ricavi confermati + F&B" value={totalRevenues} color="text-primary-soft" />
         <ResultCard
           label="Margine"
           value={margin}
-          color={margin >= 0 ? "text-green-400" : "text-red-400"}
+          color={margin >= 0 ? "text-primary-soft" : "text-red-400"}
         />
         <ResultCard
           label="Margine (con potenziali)"
           value={marginWithPotential}
-          color={marginWithPotential >= 0 ? "text-green-400" : "text-red-400"}
+          color={marginWithPotential >= 0 ? "text-primary-soft" : "text-red-400"}
         />
       </section>
 
@@ -155,25 +156,25 @@ export function ScenarioSimulator({
           <div>
             <h3 className="text-sm font-medium text-gray-500 mb-2">Costi</h3>
             <p className="text-sm">
-              Spese fisse: <span className="font-mono">€{totalFixedCosts.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
+              Spese fisse: <span className="font-mono">€{formatItDecimal(totalFixedCosts)}</span>
             </p>
           </div>
           <div>
             <h3 className="text-sm font-medium text-gray-500 mb-2">Ricavi</h3>
             <p className="text-sm">
-              Confermati (sponsor, contributi, ecc.): <span className="font-mono">€{confirmedRevenues.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
+              Confermati (sponsor, contributi, ecc.): <span className="font-mono">€{formatItDecimal(confirmedRevenues)}</span>
             </p>
             <p className="text-sm">
-              Potenziali: <span className="font-mono text-green-600">€{potentialRevenues.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
+              Potenziali: <span className="font-mono text-primary">€{formatItDecimal(potentialRevenues)}</span>
             </p>
             <p className="text-sm mt-1">
-              F&B stimato ({totalAttendance.toLocaleString("it-IT")} presenze): <span className="font-mono">€{totalFbRevenue.toLocaleString("it-IT", { minimumFractionDigits: 2 })}</span>
+              F&B stimato ({formatItInteger(totalAttendance)} presenze): <span className="font-mono">€{formatItDecimal(totalFbRevenue)}</span>
             </p>
             {fbOperators.length > 0 && (
               <div className="ml-4 mt-1 space-y-0.5">
                 {fbOperators.map((op) => (
                   <p key={op.id} className="text-xs text-gray-400">
-                    {op.name}: €{estimateFbRevenue(op, totalAttendance).toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                    {op.name}: €{formatItDecimal(estimateFbRevenue(op, totalAttendance))}
                   </p>
                 ))}
               </div>
@@ -212,7 +213,7 @@ export function ScenarioSimulator({
                 className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 placeholder-gray-400"
               />
             </div>
-            <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500">
+            <button type="submit" className="rounded-lg bg-cta px-4 py-2 text-sm font-medium text-cta-foreground hover:bg-cta-hover">
               Salva
             </button>
           </form>
@@ -230,17 +231,17 @@ export function ScenarioSimulator({
                 <div>
                   <p className="font-medium">{sc.name}</p>
                   <p className="text-xs text-gray-400 mt-0.5">
-                    {sc.total_attendance.toLocaleString("it-IT")} presenze ·{" "}
+                    {formatItInteger(sc.total_attendance)} presenze ·{" "}
                     {new Date(sc.created_at).toLocaleDateString("it-IT")}
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
                     <p className="text-sm font-mono">
-                      €{sc.calculated_total_revenues.toLocaleString("it-IT", { minimumFractionDigits: 2 })} ricavi
+                      €{formatItDecimal(sc.calculated_total_revenues)} ricavi
                     </p>
-                    <p className={`text-xs font-mono ${sc.calculated_margin >= 0 ? "text-green-400" : "text-red-400"}`}>
-                      Margine: €{sc.calculated_margin.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                    <p className={`text-xs font-mono ${sc.calculated_margin >= 0 ? "text-primary-soft" : "text-red-400"}`}>
+                      Margine: €{formatItDecimal(sc.calculated_margin)}
                     </p>
                   </div>
                   {canEdit && (
@@ -270,7 +271,7 @@ function ResultCard({ label, value, color }: { label: string; value: number; col
     <div className="rounded-lg border border-gray-200 bg-white p-4">
       <p className="text-xs text-gray-400">{label}</p>
       <p className={`mt-1 text-xl font-mono font-bold ${color || ""}`}>
-        €{value.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+        €{formatItDecimal(value)}
       </p>
     </div>
   );

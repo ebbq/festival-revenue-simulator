@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ExpenseDetail } from "./expense-detail";
 import { toggleBudget } from "./actions";
+import { formatItDecimal } from "@/lib/format-it";
 
 type Category = {
   id: string;
@@ -67,7 +68,7 @@ function getTotalPaid(expense: Expense): number {
 }
 
 function fmt(n: number): string {
-  return n.toLocaleString("it-IT", { minimumFractionDigits: 2 });
+  return formatItDecimal(n);
 }
 
 // Tree
@@ -228,7 +229,7 @@ function CategorySection({
       : null;
 
   const indent = depth === 1 ? "" : depth === 2 ? "pl-6" : "pl-12";
-  const bgClass = depth === 1 ? "bg-green-50/50" : "";
+  const bgClass = depth === 1 ? "bg-primary-subtle/50" : "";
   const fontClass = depth === 1 ? "font-semibold" : depth === 2 ? "font-medium text-sm" : "text-sm text-gray-600";
 
   return (
@@ -247,7 +248,7 @@ function CategorySection({
             <span className="text-[10px] text-gray-400 hidden lg:inline">
               {prevData.editionName}: €{fmt(prevData.totalGross)}
               {prevDelta !== null && (
-                <span className={prevDelta > 0 ? "text-red-500 ml-0.5" : "text-green-600 ml-0.5"}>
+                <span className={prevDelta > 0 ? "text-red-500 ml-0.5" : "text-primary ml-0.5"}>
                   {prevDelta > 0 ? "+" : ""}{prevDelta.toFixed(0)}%
                 </span>
               )}
@@ -260,10 +261,10 @@ function CategorySection({
         <div className="col-span-2 text-right font-mono text-sm">
           €{fmt(node.totalAllocated)}
         </div>
-        <div className={`col-span-2 text-right font-mono text-sm ${isOverBudget ? "text-red-600 font-semibold" : available !== null ? "text-green-600" : "text-gray-400"}`}>
+        <div className={`col-span-2 text-right font-mono text-sm ${isOverBudget ? "text-red-600 font-semibold" : available !== null ? "text-primary" : "text-gray-400"}`}>
           {available !== null ? `€${fmt(available)}` : "—"}
         </div>
-        <div className="col-span-2 text-right font-mono text-sm text-sky-600">
+        <div className="col-span-2 text-right font-mono text-sm text-secondary-solid">
           €{fmt(node.totalPaid)}
         </div>
       </button>
@@ -342,13 +343,13 @@ function ExpenseRow({
     <div>
       <button
         onClick={onToggle}
-        className={`w-full grid grid-cols-12 gap-2 items-center px-4 py-2 text-left text-sm hover:bg-sky-50/50 transition-colors ${indent} ${isExpanded ? "bg-sky-50/30" : ""}`}
+        className={`w-full grid grid-cols-12 gap-2 items-center px-4 py-2 text-left text-sm hover:bg-secondary-subtle/50 transition-colors ${indent} ${isExpanded ? "bg-secondary-subtle/30" : ""}`}
       >
         <div className="col-span-4 flex items-center gap-2 min-w-0">
           <span
             className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
               expense.is_budget
-                ? "bg-sky-100 text-sky-700"
+                ? "bg-secondary-subtle text-secondary-solid"
                 : "bg-gray-100 text-gray-600"
             }`}
             onClick={(e) => {
@@ -383,9 +384,9 @@ function ExpenseRow({
         </div>
         <div className="col-span-2 text-right font-mono">
           {expense.is_fully_paid ? (
-            <span className="text-green-600 text-xs">Saldato</span>
+            <span className="text-primary text-xs">Saldato</span>
           ) : paid > 0 ? (
-            <span className="text-sky-600">€{fmt(paid)}</span>
+            <span className="text-secondary-solid">€{fmt(paid)}</span>
           ) : (
             <span className="text-gray-300 text-xs">—</span>
           )}
@@ -401,15 +402,15 @@ function SummaryCard({ label, value, color, muted }: { label: string; value: num
   const valueColor = muted
     ? "text-gray-400 text-sm"
     : color === "green"
-      ? "text-green-700 text-lg"
+      ? "text-primary-dark text-lg"
       : color === "sky"
-        ? "text-sky-600 text-lg"
+        ? "text-secondary-solid text-lg"
         : "text-gray-800 text-lg";
 
   const borderColor = color === "green"
-    ? "border-green-200"
+    ? "border-primary/25"
     : color === "sky"
-      ? "border-sky-200"
+      ? "border-secondary/25"
       : "border-gray-200";
 
   return (

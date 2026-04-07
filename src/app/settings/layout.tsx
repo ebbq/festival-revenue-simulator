@@ -1,6 +1,7 @@
 import { getProfile } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { EbbqLogo } from "@/components/ebbq-logo";
 
 export default async function SettingsLayout({
   children,
@@ -16,11 +17,12 @@ export default async function SettingsLayout({
   return (
     <div className="min-h-screen bg-white">
       <header className="border-b border-gray-200 px-6 py-4">
-        <div className="mx-auto flex max-w-4xl items-center gap-6">
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-4 sm:gap-6">
+          <EbbqLogo href="/" heightClass="h-7" />
           <Link href="/" className="text-gray-400 hover:text-gray-700 text-sm">
             ← Dashboard
           </Link>
-          <h1 className="text-lg font-semibold text-green-800">Impostazioni</h1>
+          <h1 className="text-lg font-semibold text-primary-dark">Impostazioni</h1>
         </div>
       </header>
 

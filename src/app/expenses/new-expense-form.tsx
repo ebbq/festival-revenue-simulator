@@ -56,7 +56,7 @@ export function NewExpenseForm({
       <div className="mb-6 flex gap-3">
         <button
           onClick={() => setOpen(true)}
-          className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+          className="rounded-lg bg-cta px-4 py-2 text-sm font-medium text-cta-foreground hover:bg-cta-hover transition-colors"
         >
           + Nuova voce
         </button>
@@ -68,7 +68,7 @@ export function NewExpenseForm({
 
   return (
     <form
-      className="mb-8 rounded-xl border border-zinc-800 bg-zinc-900 p-6 space-y-4"
+      className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm space-y-4"
       action={async (formData) => {
         setError(null);
         const result = await createExpense(formData);
@@ -82,37 +82,37 @@ export function NewExpenseForm({
       }}
     >
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold">Nuova voce di spesa</h3>
+        <h3 className="font-semibold text-primary-dark">Nuova voce di spesa</h3>
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="text-sm text-zinc-500 hover:text-white"
+          className="text-sm text-gray-400 hover:text-gray-800 transition-colors"
         >
           Annulla
         </button>
       </div>
 
-      <p className="text-xs text-zinc-500">Lascia la descrizione vuota per creare un budget da allocare.</p>
+      <p className="text-xs text-gray-500">Lascia la descrizione vuota per creare un budget da allocare.</p>
 
       <input type="hidden" name="edition_id" value={editionId} />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="block text-xs text-zinc-500 mb-1">Descrizione (vuoto = budget)</label>
+          <label className="block text-xs text-gray-500 mb-1">Descrizione (vuoto = budget)</label>
           <input
             name="description"
             type="text"
-            className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-600"
+            className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
             placeholder="Es. Noleggio palco principale"
           />
         </div>
 
         <div>
-          <label className="block text-xs text-zinc-500 mb-1">Categoria *</label>
+          <label className="block text-xs text-gray-500 mb-1">Categoria *</label>
           <select
             name="category_id"
             required
-            className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white"
+            className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
           >
             <option value="">Seleziona...</option>
             {categoryOptions.map((opt) => (
@@ -124,33 +124,33 @@ export function NewExpenseForm({
         </div>
 
         <div>
-          <label className="block text-xs text-zinc-500 mb-1">Importo (€) *</label>
+          <label className="block text-xs text-gray-500 mb-1">Importo (€) *</label>
           <input
             name="initial_amount"
             type="number"
             step="0.01"
             required
-            className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white"
+            className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
             placeholder="0.00"
           />
         </div>
 
         <div>
-          <label className="block text-xs text-zinc-500 mb-1">Fornitore</label>
+          <label className="block text-xs text-gray-500 mb-1">Fornitore</label>
           <input
             name="supplier"
             type="text"
-            className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-600"
+            className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
             placeholder="Nome fornitore"
           />
         </div>
 
         <div>
-          <label className="block text-xs text-zinc-500 mb-1">Rif. fornitore</label>
+          <label className="block text-xs text-gray-500 mb-1">Rif. fornitore</label>
           <input
             name="supplier_ref"
             type="text"
-            className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-600"
+            className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
             placeholder="N. preventivo, contratto..."
           />
         </div>
@@ -162,19 +162,19 @@ export function NewExpenseForm({
               name="vat_applicable"
               checked={vatApplicable}
               onChange={(e) => setVatApplicable(e.target.checked)}
-              className="rounded border-zinc-700"
+              className="rounded border-gray-300 text-primary-solid focus:ring-focus"
             />
-            <span className="text-sm text-zinc-300">IVA applicabile</span>
+            <span className="text-sm text-gray-700">IVA applicabile</span>
           </label>
           {vatApplicable && (
             <div>
-              <label className="block text-xs text-zinc-500 mb-1">Aliquota IVA (%)</label>
+              <label className="block text-xs text-gray-500 mb-1">Aliquota IVA (%)</label>
               <input
                 name="vat_rate"
                 type="number"
                 step="0.01"
                 defaultValue="22"
-                className="w-24 rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white"
+                className="w-24 rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
               />
             </div>
           )}
@@ -188,16 +188,22 @@ export function NewExpenseForm({
             name="is_festival_wide"
             checked={isFestivalWide}
             onChange={(e) => setIsFestivalWide(e.target.checked)}
+            className="rounded border-gray-300 text-primary-solid focus:ring-focus"
           />
-          <span className="text-sm text-zinc-300">Spesa per tutto il festival</span>
+          <span className="text-sm text-gray-700">Spesa per tutto il festival</span>
         </label>
 
         {!isFestivalWide && festivalDays.length > 0 && (
           <div className="flex flex-wrap gap-3 ml-6">
             {festivalDays.map((day) => (
               <label key={day.id} className="flex items-center gap-1.5">
-                <input type="checkbox" name="day_ids" value={day.id} />
-                <span className="text-sm text-zinc-400">{day.label}</span>
+                <input
+                  type="checkbox"
+                  name="day_ids"
+                  value={day.id}
+                  className="rounded border-gray-300 text-primary-solid focus:ring-focus"
+                />
+                <span className="text-sm text-gray-600">{day.label}</span>
               </label>
             ))}
           </div>
@@ -205,20 +211,20 @@ export function NewExpenseForm({
       </div>
 
       <div>
-        <label className="block text-xs text-zinc-500 mb-1">Note</label>
+        <label className="block text-xs text-gray-500 mb-1">Note</label>
         <textarea
           name="notes"
           rows={2}
-          className="w-full rounded border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-600"
+          className="w-full rounded border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
           placeholder="Note aggiuntive..."
         />
       </div>
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-red-600">{error}</p>}
 
       <button
         type="submit"
-        className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500 transition-colors"
+        className="rounded-lg bg-primary-solid px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-solid-hover transition-colors"
       >
         Crea voce
       </button>

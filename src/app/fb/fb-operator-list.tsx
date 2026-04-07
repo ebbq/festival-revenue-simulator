@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createFbOperator, saveFbActuals, deleteFbOperator } from "./actions";
+import { formatItDecimal } from "@/lib/format-it";
 
 const TYPE_LABELS: Record<string, string> = {
   fixed_fee: "Fee fissa",
@@ -79,13 +80,13 @@ export function FbOperatorList({
         <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-xs text-gray-400">Stima ricavi F&B (3.000 presenze)</p>
           <p className="mt-1 text-lg font-mono font-semibold">
-            €{totalBudgetRevenue.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+            €{formatItDecimal(totalBudgetRevenue)}
           </p>
         </div>
         <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-xs text-gray-400">Consuntivo ricavi F&B</p>
-          <p className="mt-1 text-lg font-mono font-semibold text-green-400">
-            €{totalActualRevenue.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+          <p className="mt-1 text-lg font-mono font-semibold text-primary-soft">
+            €{formatItDecimal(totalActualRevenue)}
           </p>
         </div>
       </div>
@@ -93,7 +94,7 @@ export function FbOperatorList({
       {canEdit && !showForm && (
         <button
           onClick={() => setShowForm(true)}
-          className="mb-6 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500 transition-colors"
+          className="mb-6 rounded-lg bg-cta px-4 py-2 text-sm font-medium text-cta-foreground hover:bg-cta-hover transition-colors"
         >
           + Nuovo operatore
         </button>
@@ -164,7 +165,7 @@ export function FbOperatorList({
             </div>
           </div>
 
-          <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500">
+          <button type="submit" className="rounded-lg bg-secondary-solid px-4 py-2 text-sm font-medium text-secondary-foreground hover:bg-secondary-solid-hover">
             Crea operatore
           </button>
         </form>
@@ -181,7 +182,7 @@ export function FbOperatorList({
               <button
                 onClick={() => setExpandedId(isExpanded ? null : op.id)}
                 className={`w-full rounded-lg border p-4 text-left transition-colors ${
-                  isExpanded ? "border-green-300 bg-white" : "border-gray-200 bg-white hover:border-gray-300"
+                  isExpanded ? "border-primary/40 bg-white" : "border-gray-200 bg-white hover:border-gray-300"
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -189,17 +190,17 @@ export function FbOperatorList({
                     <p className="font-medium">{op.name}</p>
                     <p className="text-xs text-gray-400 mt-0.5">
                       {TYPE_LABELS[op.type]}
-                      {op.type === "fixed_fee" && op.fixed_fee && ` · €${op.fixed_fee.toLocaleString("it-IT", { minimumFractionDigits: 2 })}`}
+                      {op.type === "fixed_fee" && op.fixed_fee && ` · €${formatItDecimal(op.fixed_fee)}`}
                       {op.type === "percentage" && op.percentage && ` · ${op.percentage}%`}
                     </p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-mono">
-                      Stima: €{estimateRevenue(op, 3000).toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                      Stima: €{formatItDecimal(estimateRevenue(op, 3000))}
                     </p>
                     {actual && actual.actual_fee_paid != null && (
-                      <p className="text-xs text-green-400">
-                        Consuntivo: €{actual.actual_fee_paid.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                      <p className="text-xs text-primary-soft">
+                        Consuntivo: €{formatItDecimal(actual.actual_fee_paid)}
                       </p>
                     )}
                   </div>
@@ -237,7 +238,7 @@ export function FbOperatorList({
                         <label className="block text-xs text-gray-400 mb-1">Note</label>
                         <input name="notes" defaultValue={actual?.notes ?? ""} className="w-full rounded border border-gray-300 bg-gray-100 px-2 py-1 text-sm text-gray-800" />
                       </div>
-                      <button type="submit" className="rounded bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-500">Salva</button>
+                      <button type="submit" className="rounded bg-primary-solid px-3 py-1 text-xs font-medium text-primary-foreground hover:bg-primary-solid-hover">Salva</button>
                     </div>
                   </form>
 

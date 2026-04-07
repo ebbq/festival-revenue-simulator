@@ -1,5 +1,6 @@
 import { getProfile } from "@/lib/auth";
 import { logout } from "@/app/login/actions";
+import { EbbqLogo } from "@/components/ebbq-logo";
 
 export default async function Home() {
   const profile = await getProfile();
@@ -7,9 +8,11 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-white">
       <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
-        <div>
-          <h1 className="text-xl font-bold text-green-700">EBBQ</h1>
-          <p className="text-xs text-gray-500">Festival Management</p>
+        <div className="flex items-center gap-4">
+          <EbbqLogo href="/" priority heightClass="h-9" />
+          <div>
+            <p className="text-xs text-gray-500">Festival Management</p>
+          </div>
         </div>
         <div className="flex items-center gap-4">
           <div className="text-right text-sm">
@@ -82,10 +85,10 @@ function DashboardCard({
 }) {
   const borderHover =
     color === "green"
-      ? "hover:border-green-400"
+      ? "hover:border-primary"
       : color === "sky"
-        ? "hover:border-sky-400"
-        : "hover:border-gray-400";
+        ? "hover:border-secondary"
+        : "hover:border-accent";
 
   return (
     <a

@@ -165,7 +165,7 @@ function CategoryRow({
             onRename(name);
             setEditing(false);
           }}
-          className="text-xs text-green-600"
+          className="text-xs text-primary"
         >
           Salva
         </button>
@@ -231,7 +231,7 @@ function AddCategoryInline({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="mt-1 text-xs text-green-600/70 hover:text-green-500 transition-colors"
+        className="mt-1 text-xs text-primary/70 hover:text-primary-solid transition-colors"
       >
         {label || defaultLabel}
       </button>
@@ -266,7 +266,7 @@ function AddCategoryInline({
       />
       <button
         type="submit"
-        className="rounded bg-green-600 px-2 py-0.5 text-xs font-medium text-white hover:bg-green-500"
+        className="rounded bg-primary-solid px-2 py-0.5 text-xs font-medium text-primary-foreground hover:bg-primary-solid-hover"
       >
         Crea
       </button>

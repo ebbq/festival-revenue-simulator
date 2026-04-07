@@ -11,7 +11,7 @@ export function DayForm({ editionId }: { editionId: string }) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="mt-2 text-xs text-green-600 hover:text-green-500 transition-colors"
+        className="mt-2 text-xs text-primary hover:text-primary-solid transition-colors"
       >
         + Aggiungi giorno
       </button>
@@ -53,7 +53,7 @@ export function DayForm({ editionId }: { editionId: string }) {
       </div>
       <button
         type="submit"
-        className="rounded bg-green-600 px-2 py-1 text-xs font-medium text-white hover:bg-green-500 transition-colors"
+        className="rounded bg-primary-solid px-2 py-1 text-xs font-medium text-primary-foreground hover:bg-primary-solid-hover transition-colors"
       >
         Aggiungi
       </button>

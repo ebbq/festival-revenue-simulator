@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { login } from "./actions";
+import { EbbqLogo } from "@/components/ebbq-logo";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
@@ -21,8 +22,10 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-white">
       <div className="w-full max-w-sm space-y-8 px-6">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-green-700">EBBQ</h1>
-          <p className="mt-2 text-gray-500">Festival Management System</p>
+          <div className="flex justify-center">
+            <EbbqLogo priority heightClass="h-14 md:h-16" />
+          </div>
+          <p className="mt-4 text-sm text-gray-500">Festival Management System</p>
         </div>
 
         <form action={handleSubmit} className="space-y-4">
@@ -35,7 +38,7 @@ export default function LoginPage() {
               name="email"
               type="email"
               required
-              className="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              className="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
               placeholder="tu@email.com"
             />
           </div>
@@ -49,7 +52,7 @@ export default function LoginPage() {
               name="password"
               type="password"
               required
-              className="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              className="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-secondary-solid focus:outline-none focus:ring-1 focus:ring-focus"
               placeholder="••••••••"
             />
           </div>
@@ -61,7 +64,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-500 disabled:opacity-50 transition-colors"
+            className="w-full rounded-lg bg-cta px-4 py-2 font-medium text-cta-foreground hover:bg-cta-hover disabled:opacity-50 transition-colors"
           >
             {loading ? "Accesso..." : "Accedi"}
           </button>

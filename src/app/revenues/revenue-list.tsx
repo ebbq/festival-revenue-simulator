@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createRevenue, deleteRevenue } from "./actions";
+import { formatItDecimal } from "@/lib/format-it";
 
 const CATEGORY_LABELS: Record<string, string> = {
   sponsor: "Sponsor",
@@ -41,15 +42,15 @@ export function RevenueList({
     <div>
       {/* Summary */}
       <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-3">
-        <SummaryCard label="Confermati" value={totalConfirmed} color="text-green-400" />
-        <SummaryCard label="Potenziali" value={totalPotential} color="text-green-600" />
+        <SummaryCard label="Confermati" value={totalConfirmed} color="text-primary-soft" />
+        <SummaryCard label="Potenziali" value={totalPotential} color="text-primary" />
         <SummaryCard label="Totale" value={totalConfirmed + totalPotential} />
       </div>
 
       {canEdit && !showForm && (
         <button
           onClick={() => setShowForm(true)}
-          className="mb-6 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500 transition-colors"
+          className="mb-6 rounded-lg bg-cta px-4 py-2 text-sm font-medium text-cta-foreground hover:bg-cta-hover transition-colors"
         >
           + Nuovo ricavo
         </button>
@@ -107,7 +108,7 @@ export function RevenueList({
             </div>
           </div>
 
-          <button type="submit" className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500">
+          <button type="submit" className="rounded-lg bg-secondary-solid px-4 py-2 text-sm font-medium text-secondary-foreground hover:bg-secondary-solid-hover">
             Crea ricavo
           </button>
         </form>
@@ -130,13 +131,13 @@ export function RevenueList({
             <div className="flex items-center gap-3 shrink-0">
               <span className={`rounded-full px-2 py-0.5 text-xs ${
                 rev.status === "confirmed"
-                  ? "bg-green-400/10 text-green-400"
-                  : "bg-green-400/10 text-green-600"
+                  ? "bg-primary-soft/20 text-primary-soft"
+                  : "bg-primary-soft/20 text-primary"
               }`}>
                 {rev.status === "confirmed" ? "Confermato" : "Potenziale"}
               </span>
               <span className="font-mono font-medium">
-                €{rev.amount.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                €{formatItDecimal(rev.amount)}
               </span>
               {canEdit && (
                 <button
@@ -168,7 +169,7 @@ function SummaryCard({ label, value, color }: { label: string; value: number; co
     <div className="rounded-lg border border-gray-200 bg-white p-4">
       <p className="text-xs text-gray-400">{label}</p>
       <p className={`mt-1 text-lg font-mono font-semibold ${color || ""}`}>
-        €{value.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+        €{formatItDecimal(value)}
       </p>
     </div>
   );

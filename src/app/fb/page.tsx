@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/auth";
 import Link from "next/link";
+import { EbbqLogo } from "@/components/ebbq-logo";
 import { FbOperatorList } from "./fb-operator-list";
 
 export default async function FbPage() {
@@ -18,7 +19,8 @@ export default async function FbPage() {
     return (
       <div className="min-h-screen bg-white text-gray-800">
         <header className="border-b border-gray-200 px-6 py-4">
-          <div className="mx-auto flex max-w-6xl items-center gap-6">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 sm:gap-6">
+            <EbbqLogo href="/" heightClass="h-7" />
             <Link href="/" className="text-gray-500 hover:text-gray-800 text-sm">← Dashboard</Link>
             <h1 className="text-lg font-semibold">Ristorazione</h1>
           </div>
@@ -37,7 +39,8 @@ export default async function FbPage() {
   return (
     <div className="min-h-screen bg-white text-gray-800">
       <header className="border-b border-gray-200 px-6 py-4">
-        <div className="mx-auto flex max-w-6xl items-center gap-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 sm:gap-6">
+          <EbbqLogo href="/" heightClass="h-7" />
           <Link href="/" className="text-gray-500 hover:text-gray-800 text-sm">← Dashboard</Link>
           <h1 className="text-lg font-semibold">Ristorazione — {currentEdition.name}</h1>
         </div>
