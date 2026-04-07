@@ -12,7 +12,7 @@ export default async function Home() {
       const supabase = createClient(supabaseUrl, supabaseKey);
       const { error: dbError } = await supabase.from("_health_check").select("*").limit(1);
       // A "relation does not exist" error still means the connection works
-      if (!dbError || dbError.message?.includes("does not exist")) {
+      if (!dbError || dbError.message?.includes("does not exist") || dbError.message?.includes("schema cache")) {
         status = "connected";
       } else {
         error = dbError.message;
