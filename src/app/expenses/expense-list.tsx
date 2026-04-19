@@ -228,7 +228,13 @@ function CategorySection({
       ? ((node.budget - prevData.totalGross) / prevData.totalGross) * 100
       : null;
 
-  const indent = depth === 1 ? "" : depth === 2 ? "pl-6" : "pl-12";
+  const borderClass =
+    depth === 1
+      ? "border-l-4 border-l-primary"
+      : depth === 2
+        ? "border-l-4 border-l-primary/40"
+        : "border-l-4 border-l-primary/20";
+  const labelIndent = depth === 1 ? "" : depth === 2 ? "pl-3" : "pl-6";
   const bgClass = depth === 1 ? "bg-primary-subtle/50" : "";
   const fontClass = depth === 1 ? "font-semibold" : depth === 2 ? "font-medium text-sm" : "text-sm text-gray-600";
 
@@ -237,9 +243,9 @@ function CategorySection({
       {/* Category row */}
       <button
         onClick={() => toggle(node.category.id)}
-        className={`w-full grid grid-cols-12 gap-2 items-center px-4 py-3 text-left hover:bg-gray-50 transition-colors ${bgClass} ${indent}`}
+        className={`w-full grid grid-cols-12 gap-2 items-center px-4 py-3 text-left hover:bg-gray-50 transition-colors ${bgClass} ${borderClass}`}
       >
-        <div className="col-span-4 flex items-center gap-2 min-w-0">
+        <div className={`col-span-4 flex items-center gap-2 min-w-0 ${labelIndent}`}>
           <span className="text-gray-400 text-[10px] w-3 shrink-0">
             {isExpanded ? "▼" : "▶"}
           </span>
@@ -337,15 +343,16 @@ function ExpenseRow({
   const paid = getTotalPaid(expense);
   const remaining = gross - paid;
 
-  const indent = depth === 1 ? "pl-10" : depth === 2 ? "pl-16" : "pl-22";
+  const borderClass = "border-l-4 border-l-secondary/25";
+  const labelIndent = depth === 1 ? "pl-3" : depth === 2 ? "pl-6" : "pl-9";
 
   return (
     <div>
       <button
         onClick={onToggle}
-        className={`w-full grid grid-cols-12 gap-2 items-center px-4 py-2 text-left text-sm hover:bg-secondary-subtle/50 transition-colors ${indent} ${isExpanded ? "bg-secondary-subtle/30" : ""}`}
+        className={`w-full grid grid-cols-12 gap-2 items-center px-4 py-2 text-left text-sm hover:bg-secondary-subtle/50 transition-colors ${borderClass} ${isExpanded ? "bg-secondary-subtle/30" : ""}`}
       >
-        <div className="col-span-4 flex items-center gap-2 min-w-0">
+        <div className={`col-span-4 flex items-center gap-2 min-w-0 ${labelIndent}`}>
           <span
             className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
               expense.is_budget

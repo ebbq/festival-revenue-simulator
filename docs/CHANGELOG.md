@@ -4,6 +4,23 @@ Tutte le modifiche significative al progetto.
 
 ---
 
+## 2026-04-10 — UX spese: gerarchia con bordo sinistro e colonne allineate
+
+### Lista spese (gerarchia visiva)
+- Rimossa l'indentazione applicata all'intera riga nelle sezioni categoria/spesa (`pl-*` sul `button`), che spostava anche le colonne numeriche
+- Introdotto indicatore gerarchico con `border-l-4`:
+  - Categoria L1: `border-l-primary`
+  - Categoria L2: `border-l-primary/40`
+  - Categoria L3+: `border-l-primary/20`
+  - Righe spesa: `border-l-secondary/25`
+- Spostato il rientro solo nella colonna etichetta (`col-span-4`) tramite `labelIndent`, mantenendo allineate verticalmente le colonne Budget/Allocato/Disponibile/Pagato
+- Nessuna modifica alla logica di calcolo: aggiornamento puramente visuale/leggibilita'
+
+### File aggiornato
+- `src/app/expenses/expense-list.tsx`
+
+---
+
 ## 2026-04-08 — UI: palette EBBQ, logo, formattazione numeri, form nuova spesa
 
 ### Identità visiva (Tailwind v4 + CSS variables)
